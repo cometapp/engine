@@ -1,10 +1,10 @@
 # Computer vision at Comet
 ## A picture is worth a thousand words
-Ever wanted to remember forever the crazy atmosphere of Saturday's party with your friends? the liberating moment when you graduate? the cuteness of your cat chasing a laser beam? In most of those cases, you would take a picture or record a video in order to store this memorable instant. Visual multimedia have become an inseparable part of our social lives, and they often capture moments tied with deep affections. 
+Ever wanted to remember forever the crazy atmosphere of Saturday's party with your friends? The liberating moment when you graduate? The cuteness of your cat chasing a laser beam? In most of those cases, you would take a picture or record a video in order to store this memorable instant. Visual multimedia have become an inseparable part of our social lives, and they often capture moments tied with deep affections. 
 
 ![feeling](feeling.png)
 
-Beyond text or vocal messaging, It is thus no suprise that pictures became one of the main medium to share not only information, but emotions. Another representative example is the evolution of emojis. It all started with a simple 2 caracters combination, but rapidly evolved toward more complex images capturing a wider range of human expressions. Even more recently, [Apple released a novel feature, Animojis](https://www.apple.com/newsroom/2017/09/the-future-is-here-iphone-x/) (which stands for ANImated eMOJIs). With your own face, and a camera, you can re-enacts a 3D object in real-time. Emoji can now emote as much as you can do!
+Beyond text or vocal messaging, It is thus no surprise that pictures became one of the main medium to share not only information, but emotions. Another representative example is the evolution of emojis. It all started with a simple 2 characters combination, but rapidly evolved toward more complex images capturing a wider range of human expressions. Even more recently, [Apple released a novel feature, Animojis](https://www.apple.com/newsroom/2017/09/the-future-is-here-iphone-x/) (which stands for ANImated eMOJIs). With your own face, and a camera, you can re-enacts a 3D object in real-time. Emoji can now emote as much as you can do!
 
 ![Evolution of emoji](emoji_evolution.png)
 
@@ -19,7 +19,7 @@ Meanwhile, [the famous Moore's law](https://en.wikipedia.org/wiki/Moore%27s_law)
 ![The last iPhones' computing power are somewhat comparable to a laptop.
 ](a11_benchmark.jpg)
 
-Empowered mobile phones are actually part of a larger trend, the growth of the Internet Of Things (the so-called IoT). More and more devices are now connected, and can be thus remotely controlled (CCTV, smart watch, electric consumption meter etc). Although most of them only gather and transmit data to a central platform which may take an enlightened decision later, some others like Amazon's Alexa onboards machine learning capabilities. Running such algorithms on mobile devices is much more tedious than their counterparts on server, due to the limitation in memory and battery. They enable however functionalities that were previously considered a fantasy: real-time translation from a camera, or specialized image labelling, among others. 
+Empowered mobile phones are actually part of a larger trend, the growth of the Internet Of Things (the so-called IoT). More and more devices are now connected, and can be thus remotely controlled (CCTV, smart watch, electric consumption meter etc). Although most of them only gather and transmit data to a central platform which may take an enlightened decision later, some others like Amazon's Alexa onbends machine learning capabilities. Running such algorithms on mobile devices is much more tedious than their counterparts on server, due to the limitation in memory and battery. They enable however functionalities that were previously considered a fantasy: real-time translation from a camera, or specialized image labelling, among others. 
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/06olHmcJjS0/0.jpg)](https://www.youtube.com/watch?v=06olHmcJjS0)
 
