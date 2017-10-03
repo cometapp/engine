@@ -1,4 +1,6 @@
 # Computer vision at Comet
+Comet is an app aiming at finding the best pictures lost in the limbo of your phone. This post explains why we are introducing computer vision algorithms in the app.
+
 ## A picture is worth a thousand words
 Ever wanted to remember forever the crazy atmosphere of Saturday's party with your friends? The liberating moment when you graduate? The cuteness of your cat chasing a laser beam? In most of those cases, you would take a picture or record a video in order to store this memorable instant. Visual multimedia have become an inseparable part of our social lives, and they often capture moments tied with deep affections. 
 
