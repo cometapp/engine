@@ -7,17 +7,10 @@ The purpose of this post is to provide a review of the state-of-the-art of image
 
 
 ## The ImageNet challenge
-In the recent field of computer vision and image analysis, the ImageNet
-challenge is a reference for the state-of-the-art. It is the outcome of
-a collaboration between Stanford University and Princeton University
-grouping around fourteen millions of images originally labeled with
-Synsets[^1] of the WordNet lexicon tree. The original challenge
-consisted in a simple classification task, each image belows to one
-categorie, with 1000 categories from specific breed of dog to precise
-type of food. This task for the ImageNet challenge is still available
-but it also has evolved in a multi-classification task while inferring
-bounding boxes around the different objects of the image. This second
-challenge will not be developed in this post.
+The ImageNet database is the outcome of a collaboration between Stanford University and Princeton University, and has become a reference in the field of computer vision. It contains around fourteen millions images originally labeled with Synsets[^1] of the WordNet lexicon tree. The original challenge
+consisted in a simple classification task, each image belonging to a single
+category among one thousand, from specific breed of dog to precise
+type of food. Although the original challenge is still on-going, it has further evolved to a multi-classification task with bounding boxes around each individual object. This second challenge will not be covered in this post.
 
 ![01_carbonara](01_carbonara.JPEG)*Example of image in ImageNet2012 dataset: Carbonara. Source: [ImageNet](www.image-net.org/)*
 
