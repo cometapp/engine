@@ -1,40 +1,12 @@
-# Quick overview of the state-of-the-art: the classification task of the ImageNet challenge
+# Review of the image classification task: the ImageNet challenge
+
+## Why do we need image classification?
+In the previous post, we praised the advantages of embedded deep learning algorithms into mobile phones. While the applications are numerous, we will focus on computer vision algorithms, the heart of Comet. One of the most popular task of such algorithms is image classification, ie telling which object appears on a picture. Indeed mobile phones host a diverse and rich photo gallery which then become a personal database difficult to manage especially to recover specific events. Users should be able to have a souvenir in their mind and find the associated images in the most efficient way. A first intuitive approach would be to type in a word corresponding to the content of the image. Searching images with words is, from a machine learning point of view, a classification problem with a high number of classes. 
+
+The purpose of this post is to provide a review of the state-of-the-art of image classification algorithms based on the most popular labelled dataset, ImageNet. We will describe some of the innovative architectures which lead to significant improvements.
 
 
-## Introduction
-
-
-In the previous post, the interest of embed deep learning algorithms in
-mobile phone has be introduced. With diverse and rich photo gallery
-everyone has in his or her cellphone, it becomes an important personal
-database difficult to manage by ourself specially to recover specific
-events.
-
-Comet is an app helping users rediscovering their own souvenirs while
-respecting their privacy. As a start, users should be able to have a
-souvenir in their mind and find the associated images in the most
-efficient way. In a large gallery containing thousands of images, no one
-have the exact time line and can exactly remember its structure.
-Nevertheless everyone has key events in its mind where we can remember
-of tiny details. In this way, users may search a specific image using
-its memory of objects present in this targeted picture.
-
-Search images by objects, animals or persons is a classification task
-with a high number of classes. For a specific word, a user can be able
-to find a picture according to a confidence probability predicted by as
-specific model. Thus the higher the number of classes, the better the
-match with the vocabulary of the user.
-
-The purpose of this post is to provide few details about the
-state-of-the-art of the ImageNet challenge, precisely over the
-classification task that have inspired our work at the machine learning
-team. Some of the major shifts of performances will be approached
-providing short precisions about innovative architectures and modules.
-
-## The classification task using Deep Learning: state-of-the-art using the ImageNet challenge
-
-### The ImageNet challenge
-
+## The ImageNet challenge
 In the recent field of computer vision and image analysis, the ImageNet
 challenge is a reference for the state-of-the-art. It is the outcome of
 a collaboration between Stanford University and Princeton University
@@ -51,7 +23,7 @@ challenge will not be developed in this post.
 
 ![02_EnglishFoxhound](02_EnglishFoxhound.JPEG)*Example of image in ImageNet2012 dataset: English Foxhound. Source: [ImageNet](www.image-net.org/)*
 
-### The advent of deep learning
+## The advent of deep learning
 
 The original classification task of the ImageNet challenge has been the
 opportunity for the Deep Learning community to make itself known with an
@@ -66,7 +38,7 @@ layers and tree fully-connected layers.
 ![12_AlexNet_architecture_training_2_gpu](12_AlexNet_architecture_training_2_gpu.png)*AlexNet architecture for training with 2 GPUs. Source: [A. Krizhevsky and al (2012)](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks)*
 
 
-### Going deeper
+## Going deeper
 
 Since the 2012 milestone, the active researches on deep learning
 algorithms have tried to go deeper in the sequences of convolutional
@@ -81,7 +53,7 @@ as larger filters and decreasing the number of parameters to train.
 These transformations reached to a 7.3% top-5 score on the 2014 ImageNet
 challenge reducing by a factor of two the error rate of the AlexNet.
 
-### Inception modules
+## Inception modules
 
 New ideas have emerged this same year, [M. Lin and al (2014)](https://arxiv.org/abs/1312.4400.pdf) have developed the concept of
 “inception”. Original convolutional layer uses linear transformations
@@ -130,7 +102,7 @@ by two 3x3 convolutions. Source: [C. Szegedy and al (2015)](https://arxiv.org/ab
 by two 3x3 convolutions. Source: [C. Szegedy and al (2015)](https://arxiv.org/abs/1512.00567)*
 
 
-### Residual learning
+## Residual learning
 
 Almost at the same time of the release of Inception V3, Microsoft has
 also developed an interesting idea published by [K. He and al (2015)](http://arxiv.org/abs/1512.03385). As we have seen before,
