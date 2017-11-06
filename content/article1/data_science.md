@@ -1,5 +1,5 @@
-# Computer vision at Comet
-Comet is an app aiming at finding the best pictures lost in the limbo of your phone. This post explains why we are introducing computer vision algorithms in the app.
+# Computer vision at Zyl
+Zyl is an app aiming at finding the best pictures lost in the limbo of your phone. This post explains why we are introducing computer vision algorithms in the app.
 
 ## A picture is worth a thousand words
 Ever wanted to remember forever the crazy atmosphere of Saturday's party with your friends? The liberating moment when you graduate? The cuteness of your cat chasing a laser beam? In most of those cases, you would take a picture or record a video in order to store this memorable instant. Visual multimedia have become an inseparable part of our social lives, and they often capture moments tied with deep affections. 
@@ -36,7 +36,7 @@ The advent of mobile devices came with a curse, security. Protecting user privac
 To mitigate these issues, one can use the concept of "privacy by design". The product (or service) is designed such that the data doesn't need protection, by limiting data transfer from a user to the system. Privacy is brought at the heart of the engineering process. The advantage of porting machine learning algorithms directly onto the mobile are thus 2-folds: first, as described in the previous section, it enables novel functionalities ; second, it prevents data transfer to a potentially compromised server. From a data scientist point of view, we can see popping up more and more machine learning frameworks specialised for mobile devices: [caffe](https://github.com/solrex/caffe-mobile), [tensorflow](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/android), or [Mobile Deep Learning by Baidu](https://github.com/baidu/mobile-deep-learning)
 
 ## Resurrect your memories
-The ambition of Comet is to take advantage of state-of-the-art computer vision algorithms to bring back to life your best memories buried in your phone. Wouldn't it be easier to enjoy them by finding a precise moment easily? group automatically your pictures by album? or finding the best portraits of your friends? Such features require deep learning technics brought directly to the user, while everything should stay on his or her mobile. All your photos belong to you, and only you. In an upcoming post, we will explain in more details the kind of technologies we use at Comet to achieve such functionalities. 
+The ambition of Zyl is to take advantage of state-of-the-art computer vision algorithms to bring back to life your best memories buried in your phone. Wouldn't it be easier to enjoy them by finding a precise moment easily? group automatically your pictures by album? or finding the best portraits of your friends? Such features require deep learning technics brought directly to the user, while everything should stay on his or her mobile. All your photos belong to you, and only you. In an upcoming post, we will explain in more details the kind of technologies we use at Zyl to achieve such functionalities. 
 
 
 You should spend time living a rich and busy life, we take care of the rest.
