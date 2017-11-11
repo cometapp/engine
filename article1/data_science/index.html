@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.31-DEV" />
+  <link href="" rel="alternate" type="application/rss+xml" title="My New Hugo Site" />
+  <link href="http://engine.cometapp.io/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://engine.cometapp.io/css/hc.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  
+    
+    </head>
+    <body>
+<div class="nav-toggle"><i class="fa fa-bars fa-2x"></i> Herring Cove </div>
+      <div id = "wrapper">
+
+
+<div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="http://engine.cometapp.io/"><p class="navbar-brand">My New Hugo Site</p></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+					
+					
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+       
+       <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+					<img src="" />
+          <li class="sidebar-brand"><a href="http://engine.cometapp.io/"><h1 class="brand">My New Hugo Site</h1></a><h3></h3></li>
+          <hr />
+					
+          <hr />
+          <div id="social-wrapper">
+           
+           
+           
+           
+         </div>
+       </ul>
+     </div>
+
+
+
+     <div class="container">
+
+
+  <div id="article">
+   <div class="article-title"></div>
+   <p class="meta"><small>&nbsp;<i class="fa fa-calendar-o"></i> 0001-01-01</small></p> <hr/>
+   <div class="post">
+     
+
+<h1 id="computer-vision-at-zyl">Computer vision at Zyl</h1>
+
+<p>Zyl is an app aiming at finding the best pictures lost in the limbo of your phone. This post explains why we are introducing computer vision algorithms in the app.</p>
+
+<h2 id="a-picture-is-worth-a-thousand-words">A picture is worth a thousand words</h2>
+
+<p>Ever wanted to remember forever the crazy atmosphere of Saturday&rsquo;s party with your friends? The liberating moment when you graduate? The cuteness of your cat chasing a laser beam? In most of those cases, you would take a picture or record a video in order to store this memorable instant. Visual multimedia have become an inseparable part of our social lives, and they often capture moments tied with deep affections.</p>
+
+<p><img src="feeling.png" alt="feeling" /></p>
+
+<p>Beyond text or vocal messaging, It is thus no surprise that pictures became one of the main medium to share not only information, but emotions. Another representative example is the evolution of emojis. It all started with a simple 2 characters combination, but rapidly evolved toward more complex images capturing a wider range of human expressions. Even more recently, <a href="https://www.apple.com/newsroom/2017/09/the-future-is-here-iphone-x/">Apple released a novel feature, Animojis</a> (which stands for ANImated eMOJIs). With your own face, and a camera, you can re-enacts a 3D object in real-time. Emoji can now emote as much as you can do!</p>
+
+<p><img src="emoji_evolution.png" alt="Evolution of emoji" /></p>
+
+<p>This trend directly impacts the type of data generated every day. Unstructured data (encompassing images, video) have taken over more traditional structured data (eg: Excel files) in the past couple of years. If we look forward, storage being cheaper, and transmission being faster, we may witness soon <a href="https://giphy.com/">(if not already)</a> the usage of video as a finer degree of expressiveness than pictures.</p>
+
+<p><img src="unstructured_data.jpg" alt="unstructured_data text" /></p>
+
+<h2 id="everything-in-the-palm-of-your-hand">Everything in the palm of your hand</h2>
+
+<p>Meanwhile, <a href="https://en.wikipedia.org/wiki/Moore%27s_law">the famous Moore&rsquo;s law</a> is at work (even though <a href="http://www.economist.com/node/21693710/sites/all/modules/custom/ec_essay">some are questioning its existence today</a>). Chips keep shrinking at a formidable rate, and, alongside the information revolution, you can now carry in your pocket a computer a million times more powerful than <a href="https://en.wikipedia.org/wiki/Apollo_Guidance_Computer">Apollo&rsquo;s space shuttle</a>. Another striking example is that most recent phones are actually now almost as powerful as their contemporary laptops!</p>
+
+<p><img src="a11_benchmark.jpg" alt="The last iPhones' computing power are somewhat comparable to a laptop.
+" /></p>
+
+<p>Empowered mobile phones are actually part of a larger trend, the growth of the Internet Of Things (the so-called IoT). More and more devices are now connected, and can be thus remotely controlled (CCTV, smart watch, electric consumption meter etc). Although most of them only gather and transmit data to a central platform which may take an enlightened decision later, some others like Amazon&rsquo;s Alexa onbends machine learning capabilities. Running such algorithms on mobile devices is much more tedious than their counterparts on server, due to the limitation in memory and battery. They enable however functionalities that were previously considered a fantasy: real-time translation from a camera, or specialized image labelling, among others.</p>
+
+<p><a href="https://www.youtube.com/watch?v=06olHmcJjS0"><img src="https://img.youtube.com/vi/06olHmcJjS0/0.jpg" alt="IMAGE ALT TEXT HERE" /></a></p>
+
+<p><a href="https://www.youtube.com/watch?v=neB1S0UPJFw"><img src="https://img.youtube.com/vi/neB1S0UPJFw/0.jpg" alt="IMAGE ALT TEXT HERE" /></a></p>
+
+<h2 id="user-privacy-at-the-forefront">User privacy at the forefront</h2>
+
+<p>The advent of mobile devices came with a curse, security. Protecting user privacy and the access to these numerous devices has become a primary concern. Services storing user data on their server are particularly exposed. For example, <a href="https://techcrunch.com/2017/10/03/yahoo-says-all-3b-accounts-were-impacted-by-2013-breach-not-1b-as-thought/">Yahoo! disclosed a breach of all their 3 billions accounts</a>, (not 1 billion as initially estimated) including telephone numbers, dates of birth, password and more. No matter the sector, data that are centralized are exposed to potential hacks, whether you are <a href="https://en.wikipedia.org/wiki/Ashley_Madison_data_breach">a dating website</a>, an <a href="https://en.wikipedia.org/wiki/Sony_Pictures_hack">entertainment company</a>, or even <a href="https://en.wikipedia.org/wiki/Iraq_War_documents_leak">the department of defense of the United States</a>. Similarly, ill-protected devices can be used for malicious purposes. In September 2016, <a href="https://www.ovh.com/us/news/articles/a2367.the-ddos-that-didnt-break-the-camels-vac">the world&rsquo;s largest DDoS (Distributed Denial of Service) attack to date</a> used around 150 000 compromised connected devices (CCTV cameras and personal video recorders) against OVH, a French web host provider. And <a href="https://en.wikipedia.org/wiki/List_of_cyberattacks">the list continues</a>.</p>
+
+<p><img src="list_data_breach.png" alt="A non exhaustive list of the most recent data breaches from https://en.wikipedia.org/wiki/List_of_data_breaches" /></p>
+
+<p>To mitigate these issues, one can use the concept of &ldquo;privacy by design&rdquo;. The product (or service) is designed such that the data doesn&rsquo;t need protection, by limiting data transfer from a user to the system. Privacy is brought at the heart of the engineering process. The advantage of porting machine learning algorithms directly onto the mobile are thus 2-folds: first, as described in the previous section, it enables novel functionalities ; second, it prevents data transfer to a potentially compromised server. From a data scientist point of view, we can see popping up more and more machine learning frameworks specialised for mobile devices: <a href="https://github.com/solrex/caffe-mobile">caffe</a>, <a href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/android">tensorflow</a>, or <a href="https://github.com/baidu/mobile-deep-learning">Mobile Deep Learning by Baidu</a></p>
+
+<h2 id="resurrect-your-memories">Resurrect your memories</h2>
+
+<p>The ambition of Zyl is to take advantage of state-of-the-art computer vision algorithms to bring back to life your best memories buried in your phone. Wouldn&rsquo;t it be easier to enjoy them by finding a precise moment easily? group automatically your pictures by album? or finding the best portraits of your friends? Such features require deep learning technics brought directly to the user, while everything should stay on his or her mobile. All your photos belong to you, and only you. In an upcoming post, we will explain in more details the kind of technologies we use at Zyl to achieve such functionalities.</p>
+
+<p>You should spend time living a rich and busy life, we take care of the rest.</p>
+
+   </div>
+ </div>
+
+
+ <a href="https://twitter.com/share" class="twitter-share-button " data-size="small" data-count="none">Tweet</a>
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+ <ul class="pager">
+      &nbsp;<li class="previous"><a href="http://engine.cometapp.io/about/"> About</a></li>
+      &nbsp;<li class="next"><a href="http://engine.cometapp.io/article2/main/"> </a></li>
+</ul>
+
+
+
+    </ul>
+    </div>
+    <footer>
+
+        <p class="text-muted credit">&copy; 2017. All rights reserved. </p>
+    </footer>
+ 
+    <script src="http://engine.cometapp.io/js/jquery-1.10.2.min.js"></script>
+    <script src="http://engine.cometapp.io/js/bootstrap.min.js"></script>
+    <script src="http://engine.cometapp.io/js/bootstrap.js"></script>
+    <script type="text/javascript" src="http://engine.cometapp.io/js/hc.js"></script>
+</body>
+
+</html>
+

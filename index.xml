@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My New Hugo Site</title>
+    <link>http://engine.cometapp.io/</link>
+    <description>Recent content on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 21 Sep 2017 19:53:54 +0200</lastBuildDate>
+    
+	<atom:link href="http://engine.cometapp.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>About2</title>
+      <link>http://engine.cometapp.io/about2/</link>
+      <pubDate>Thu, 21 Sep 2017 19:53:54 +0200</pubDate>
+      
+      <guid>http://engine.cometapp.io/about2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>http://engine.cometapp.io/about/</link>
+      <pubDate>Thu, 21 Sep 2017 16:05:47 +0200</pubDate>
+      
+      <guid>http://engine.cometapp.io/about/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://engine.cometapp.io/article1/data_science/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://engine.cometapp.io/article1/data_science/</guid>
+      <description>Computer vision at Zyl Zyl is an app aiming at finding the best pictures lost in the limbo of your phone. This post explains why we are introducing computer vision algorithms in the app.
+A picture is worth a thousand words Ever wanted to remember forever the crazy atmosphere of Saturday&amp;rsquo;s party with your friends? The liberating moment when you graduate? The cuteness of your cat chasing a laser beam?</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://engine.cometapp.io/article2/main/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://engine.cometapp.io/article2/main/</guid>
+      <description>Review of deep learning algorithms for image classification Un petit mot sur pourquoi on change de challenge entre 2012, 2014 et 2015. Quelles différences ? rajouter un petit tableau récapitulatif, avec les perfs, les caractéristiques principales, ou alors une timeline des modèles ?
+Why do we need image classification? In the previous post, we praised the advantages of embedded deep learning algorithms into mobile phones. While the applications are numerous, we will focus on computer vision algorithms, the heart of Comet.</description>
+    </item>
+    
+  </channel>
+</rss>

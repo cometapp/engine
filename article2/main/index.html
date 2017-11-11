@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.31-DEV" />
+  <link href="" rel="alternate" type="application/rss+xml" title="My New Hugo Site" />
+  <link href="http://engine.cometapp.io/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://engine.cometapp.io/css/hc.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  
+    
+    </head>
+    <body>
+<div class="nav-toggle"><i class="fa fa-bars fa-2x"></i> Herring Cove </div>
+      <div id = "wrapper">
+
+
+<div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="http://engine.cometapp.io/"><p class="navbar-brand">My New Hugo Site</p></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+					
+					
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+       
+       <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+					<img src="" />
+          <li class="sidebar-brand"><a href="http://engine.cometapp.io/"><h1 class="brand">My New Hugo Site</h1></a><h3></h3></li>
+          <hr />
+					
+          <hr />
+          <div id="social-wrapper">
+           
+           
+           
+           
+         </div>
+       </ul>
+     </div>
+
+
+
+     <div class="container">
+
+
+  <div id="article">
+   <div class="article-title"></div>
+   <p class="meta"><small>&nbsp;<i class="fa fa-calendar-o"></i> 0001-01-01</small></p> <hr/>
+   <div class="post">
+     
+
+<h1 id="review-of-deep-learning-algorithms-for-image-classification">Review of deep learning algorithms for image classification</h1>
+
+<p><strong>Un petit mot sur pourquoi on change de challenge entre 2012, 2014 et 2015. Quelles différences ? rajouter un petit tableau récapitulatif, avec les perfs, les caractéristiques principales, ou alors une timeline des modèles ?</strong></p>
+
+<h2 id="why-do-we-need-image-classification">Why do we need image classification?</h2>
+
+<p>In the previous post, we praised the advantages of embedded deep learning algorithms into mobile phones. While the applications are numerous, we will focus on computer vision algorithms, the heart of Comet. One of the most popular task of such algorithms is image classification, ie telling which object appears on a picture. Indeed mobile phones host a diverse and rich photo gallery which then become a personal database difficult to manage especially to recover specific events. Users should be able to have a souvenir in their mind and find the associated images in the most efficient way. A first intuitive approach would be to type in a word corresponding to the content of the image. Searching images with words is, from a machine learning point of view, a classification problem with a high number of classes.</p>
+
+<p>The purpose of this post is to provide a review of the state-of-the-art of image classification algorithms based on the most popular labelled dataset, ImageNet. We will describe some of the innovative architectures which lead to significant improvements.
+Note that reseachers test their algorithms using different datasets (a new ImageNet dataset is released as a new challenge with different images each year). Thus the cited accuracies cannot be directly compared <em>per se</em>.</p>
+
+<h2 id="the-imagenet-challenge">The ImageNet challenge</h2>
+
+<p>The ImageNet database is the outcome of a collaboration between Stanford University and Princeton University, and has become a reference in the field of computer vision. It contains around fourteen millions images originally labeled with Synsets<sup class="footnote-ref" id="fnref:1"><a rel="footnote" href="#fn:1">1</a></sup> of the WordNet lexicon tree. The original challenge
+consisted in a simple classification task, each image belonging to a single
+category among one thousand, from specific breed of dog to precise
+type of food. Although the original challenge is still on-going, it has further evolved to a multi-classification task with bounding boxes around each individual object. This second challenge will not be covered in this post.</p>
+
+<p><img src="01_carbonara.JPEG" alt="01_carbonara" /><em>Example of image in ImageNet2012 dataset: Carbonara. Source: <a href="www.image-net.org/">ImageNet</a></em></p>
+
+<p><img src="02_EnglishFoxhound.JPEG" alt="02_EnglishFoxhound" /><em>Example of image in ImageNet2012 dataset: English Foxhound. Source: <a href="www.image-net.org/">ImageNet</a></em></p>
+
+<h2 id="the-advent-of-deep-learning">The advent of deep learning</h2>
+
+<p>The ImageNet challenge has been traditionnally tackled with image analysis algorithms such as SIFT with mitigated results until the late 90s. However, a gap in performance has been brought by using neural networks. Inspired by <a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf">Y. Lecun and al (1998)</a>, the first deep learning model published by <a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks">A. Krizhevsky and al (2012)</a> drew attention to the public by getting a top-5 error rate of 15.3% outperforming the previous best one with an accuracy of 26.2% using a SIFT model. This famous model, the so-called &ldquo;AlexNet&rdquo; is what can be considered today as a simple architecture with five consecutive convolutional filters, max-pool layers and three fully-connected layers.</p>
+
+<p><img src="11_LeNet_5_architecture_digit_reco.png" alt="1_LeNet_5_architecture_digit_reco" /><em>LeNet-5 architecture for digit recognition. Source: <a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf">Y. Lecun and al (1998)</a></em></p>
+
+<p><img src="12_AlexNet_architecture_training_2_gpu.png" alt="12_AlexNet_architecture_training_2_gpu" /><em>AlexNet architecture for training with 2 GPUs. Source: <a href="https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks">A. Krizhevsky and al (2012)</a></em></p>
+
+<h2 id="going-deeper">Going deeper</h2>
+
+<p>Since the 2012 milestone, researchers have tried to go deeper in the sequences of convolutional layers. In 2014, <a href="https://arxiv.org/abs/1409.1556.pdf">K. Simonyan &amp; A. Zisserman (2015)</a> released the VGG16 model, composed of sixteen convolutional layers, multiple max-pool layers and tree final fully-connected layers. One of its specificities is to chain multiple convolutional layers with ReLU activation functions creating non-linear transformations. Indeed, introducing non-linearities allow models to learn more complex patterns. Moreover they introduced 3x3 filters for each convolution (as opposed to 11x11 filters for the AlexNet model) and noticed they could recognised the same patterns than larger filters while decreasing the number of parameters to train. These transformations reached 7.3% top-5 score on the 2014 ImageNet challenge reducing by a factor of two the error rate of the AlexNet model.</p>
+
+<h2 id="inception-modules">Inception modules</h2>
+
+<p>This same year, <a href="https://arxiv.org/abs/1312.4400.pdf">M. Lin and al (2014)</a> have developed the concept of &ldquo;inception modules&rdquo;. Original convolutional layer uses linear transformations with a non-linear activation function. However, training multiple convolutional layers simultaneously and stack their feature maps linked with a multi-layer perceptron also produces a non-linear transformation. This idea has been exploited by <a href="https://arxiv.org/abs/1409.4842">C. Szegedy and al (2014)</a> who proposed a deeper network called GoogLeNet (aka Inception V1) with 22 layers using such &ldquo;inception modules&rdquo; for a total of over 50 convolution layers. Each module is composed of 1x1, 3x3, 5x5 convolution layers and a 3x3 max-pool layer to increase sparsity in the model and obtain different type of patterns. The produced feature maps are then concatenated and analyzed by the next inception module. The GoogLeNet model has a 6.7% error rate over the 2014 ImageNet challenge which is somewhat lower than the VGG16 but astonishingly smaller than its VGG16 counterpart (55MB vs 490MB). This gap is mainly due to the presence of the three large fully-connected layers in the VGG architecture.</p>
+
+<p><img src="31_Inception_module.png" alt="31_Inception_module" /><em>Inception module. Source: <a href="https://arxiv.org/abs/1409.4842">C. Szegedy and al (2014)</a></em></p>
+
+<p><img src="32_GoogLeNet.png" alt="32_GoogLeNet" /><em>GoogLeNet architecture. Source: <a href="https://arxiv.org/abs/1409.4842">C. Szegedy and al (2014)</a></em></p>
+
+<p>In 2015, <a href="https://arxiv.org/abs/1512.00567">C. Szegedy and al (2015)</a> developed  the Inception V2 model, mostly inspired by the first version. The authors have however changed the 5x5 filter in the inception modules by two 3x3 filters, a 3x3 convolution and a 3x1 fully-connected slided over the first one. This method called convolution factorization decreases the number of parameters in each inception module, thus reducing the computational cost. This model reached a top-5 error rate of 5.6% on the 2012 ImageNet challenge.</p>
+
+<p>Going further, <a href="https://arxiv.org/abs/1512.00567">C. Szegedy and al (2015)</a> have fine-tuned the batch-normalization and used a higher resolution input, the famous Inception V3 model. They reduced the strides of the first two layers and removed a max-pool layer to analyze images with higher precision. They finally reached a top-5 error rate of 3.58% over the 2012 ImageNet challenge.</p>
+
+<p><img src="33_Inception_module_factorization_after_nxn_conv.png" alt="33_Inception_module_factorization_after_nxn_conv" /><em>Inception module factorization after a nxn convolution. Source: <a href="https://arxiv.org/abs/1512.00567">C. Szegedy and al (2015)</a></em></p>
+
+<p><img src="34_Inception_module_application_factorization_replace_5x5_by_two_3x3.png" alt="34_Inception_module_application_factorization_replace_5x5_by_two_3x3" /><em>Inception module factorization application replacing 5x5 convolution
+by two 3x3 convolutions. Source: <a href="https://arxiv.org/abs/1512.00567">C. Szegedy and al (2015)</a></em></p>
+
+<h2 id="residual-learning">Residual learning</h2>
+
+<p>The main common trend in convolutional neural network models is their increasing depth. <a href="http://arxiv.org/abs/1512.03385">K. He and al (2015)</a> noticed however,  that the increasing depth involves a increasing error rate, not due to overfitting but to the difficulties to train and optimize an extreme deep models. &ldquo;Residual Learning&rdquo; has been introduced to create a connection
+between the output of one or multiple convolutional layers and their
+original input with an identity mapping. In other words, the model is
+trying to learn a residual function which keeps most of the information
+and produces only slight changes. Consequently, patterns from the input image can be learned in deeper layers if it&rsquo;s not too much transformed yet. Moreover, this method doesn’t add any additional parameter and doesn’t increase the computational complexity of the model. This model, dubbed &ldquo;ResNet&rdquo;, is composed of 152 convolutional layers with 3x3 filters using residual learning by
+block of two layers. Although it got a top-5 error rate of 4.49% over
+the 2012 ImageNet challenge (less than the Inception V3), the ResNet
+model has won the 2015 challenge with a top-5 error rate of 3.57%.</p>
+
+<p><img src="41_Residual_learning_block.png" alt="41_Residual_learning_block" /><em>Residual learning block architecture. Source: <a href="http://arxiv.org/abs/1512.03385">K. He and al (2015)</a></em></p>
+
+<p><img src="42_VGG19_vs_ResNet_34_layers.png" alt="42_VGG19_vs_ResNet_34_layers" /><em>ResNet architecture. Source: <a href="http://arxiv.org/abs/1512.03385">K. He and al (2015)</a></em></p>
+
+<h3 id="the-inception-resnet">The Inception-ResNet</h3>
+
+<p>One year after the success of the ResNet model, <a href="http://arxiv.org/abs/1602.07261">C. Szegedy and al (2016)</a> combined inception modules (to increase sparsity) and residual blocks (to learn deeper layers), building residual inception blocks. The inception modules have been improved to fine-tune the layer sizes and to detect more specific patterns. This model doesn&rsquo;t use batch-normalization before the first traditional layers of the network to increase even more the number of inception blocks. The resulting Inception V4 (Inception-ResNet)<sup class="footnote-ref" id="fnref:2"><a rel="footnote" href="#fn:2">2</a></sup> model can be trained faster and outperforms all other models over the 2012 ImageNet challenge with a top-5 error rate of 3.08%.</p>
+
+<p><img src="51_Inception_ResNet_archi_using_complex_modules.png" alt="51_Inception_ResNet_archi_using_complex_modules" /><em>Inception-ResNet architecture using customized Inception-ResNet modules. Source: <a href="http://arxiv.org/abs/1602.07261">C. Szegedy and al (2016)</a></em></p>
+
+<h3 id="squeeze-and-excitation">Squeeze and Excitation</h3>
+
+<p>Every day, new blocks to improve performance and speed up training
+are proposed.
+For example, the &ldquo;Squeeze-and-Excitation&rdquo; module
+<a href="https://arxiv.org/abs/1709.01507">(J. Hu, 2017)</a> uses an architecture combining multiple fully-connected layers, inception modules and residual blocks. One of its main advantages is the low number of parameters (thus reducing computational cost) while retaining a top-5 error rate of 2.25%, promoting him winner of the 2017 ImageNet challenge.</p>
+
+<p><img src="61_SE-ResNet_module.png" alt="61_SE-ResNet_module" /><em>Squeeze-Excitation-ResNet module. Source: <a href="https://arxiv.org/abs/1709.01507">J. Hu (2017)</a></em></p>
+
+<h3 id="neural-architecture-search">Neural Architecture Search</h3>
+
+<p>Google Brain researchers <a href="https://arxiv.org/pdf/1611.01578.pdf">(B. Zoph and Q.V. Le, 2017)</a> have released a new concept called Neural Architecture Search (NAS). Basically, it is used as a cell in Recurrent Neural Network to learn its own architecture using reinforcement learning. With a range of operations and hyperparameters, multiple sequences are realized to maximize the accuracy as a signal reward for a given dataset. The objective is to learn the best sequence of operations with a maximum depth to get an optimized architecture. A CNN architecture learn with NAS have reached the state-of-the-art test error rate on the CIFAR-10 dataset.</p>
+
+<p>Using this previous work, <a href="https://arxiv.org/pdf/1707.07012.pdf">(B. Zoph and al, 2017)</a> have created a model with an architecture block learned using NAS on the CIFRA-10 dataset to perform the ImageNet challenge. These blocks are duplicated and stacked with their own parameters to create the &ldquo;NASNet&rdquo; model. The ImageNet dataset is too large to be used for the NAS method but the authors have succeeded to create lighter and speeder block architectures than <a href="http://arxiv.org/abs/1602.07261">C. Szegedy and al (2016)</a>. The model achieved the top-1 state-of-the-art result and a 3.8% error rate over the ImageNet 2012 challenge. A smaller version of less than 50MB is also released with a lower error rate than any other equivalently-sized model. The large model has also reached the new state-of-the-art for the multi-classification task and details will be provided in a next post.</p>
+
+<p><img src="71_NASnet_A_modules.png" alt="71_NASnet_A_modules" /><em>Architecture of the best convolutional modules learned with NAS computing the next hidden state using the past one as input. Left: the Normal Cell is the module creating the feature maps. Right: the Reduction Cell is the module reducing the size of the feature maps by a factor of two (it replaces max-pooling layers)</em></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This post described the milestones reached in deep learning for the image classification problem, and more specifically around the ImageNet challenge. However, it is not an exhaustive list of all the existing models. New ones appear every day, as a reminder that image classification is a very active field of research in computer vision.</p>
+
+<p>Caption: Overview of the top-5 error rates on the 2012, 2014, 2015 and 2017 ImageNet challenges.</p>
+
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>ImageNet 2012</th>
+<th>ImageNet 2014</th>
+<th>ImageNet 2015</th>
+<th>ImageNet 2017</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>AlexNet</td>
+<td>15.3%</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+
+<tr>
+<td>VGG16</td>
+<td>x</td>
+<td>7.3%</td>
+<td>x</td>
+<td>x</td>
+</tr>
+
+<tr>
+<td>GoogLeNet (Inception V1)</td>
+<td>x</td>
+<td>6.7%</td>
+<td>x</td>
+<td>x</td>
+</tr>
+
+<tr>
+<td>Inception V2</td>
+<td>5.6%</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+
+<tr>
+<td>Inception V3</td>
+<td>3.58%</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+
+<tr>
+<td>ResNet</td>
+<td>4.49%</td>
+<td>x</td>
+<td>3.57%</td>
+<td>x</td>
+</tr>
+
+<tr>
+<td>Inception-ResNet (Inception V4)</td>
+<td>3.08%</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+
+<tr>
+<td>SE-ResNet</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>2.25%</td>
+</tr>
+
+<tr>
+<td>NASNet</td>
+<td>3.8%</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+</tbody>
+</table>
+
+<p>Most of them however requires, with a size of hundred of megabytes, a significant computational cost due to the large number of operation involved, even in inference mode. This constitutes a real matter of concern for deep learning models embedded on mobile devices. Optimization of architectures and weights storage in inference also constitutes an active field of research, which will be addressed in an upcoming post.</p>
+
+<p>Tags: review, CNN, difficult</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:1">Synonym sets
+ <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
+<li id="fn:2"><a href="http://arxiv.org/abs/1602.07261">C. Szegedy and al (2016)</a> developed a pure (ie without residual block) Inception V4 and an Inception-ResNet V2 model which uses inception modules and residual blocks. The aforementioned Inception V4 is the Inception-ResNet V2 providing the best performances.
+ <a class="footnote-return" href="#fnref:2"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+   </div>
+ </div>
+
+
+ <a href="https://twitter.com/share" class="twitter-share-button " data-size="small" data-count="none">Tweet</a>
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+ <ul class="pager">
+      &nbsp;<li class="previous"><a href="http://engine.cometapp.io/article1/data_science/"> </a></li>
+     
+</ul>
+
+
+
+    </ul>
+    </div>
+    <footer>
+
+        <p class="text-muted credit">&copy; 2017. All rights reserved. </p>
+    </footer>
+ 
+    <script src="http://engine.cometapp.io/js/jquery-1.10.2.min.js"></script>
+    <script src="http://engine.cometapp.io/js/bootstrap.min.js"></script>
+    <script src="http://engine.cometapp.io/js/bootstrap.js"></script>
+    <script type="text/javascript" src="http://engine.cometapp.io/js/hc.js"></script>
+</body>
+
+</html>
+
