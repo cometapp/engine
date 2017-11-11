@@ -5,7 +5,7 @@
 
 
 ## Why do we need image classification?
-In the previous post, we praised the advantages of embedded deep learning algorithms into mobile phones. While the applications are numerous, we will focus on computer vision algorithms, the heart of Comet. One of the most popular task of such algorithms is image classification, ie telling which object appears on a picture. Indeed mobile phones host a diverse and rich photo gallery which then become a personal database difficult to manage especially to recover specific events. Users should be able to have a souvenir in their mind and find the associated images in the most efficient way. A first intuitive approach would be to type in a word corresponding to the content of the image. Searching images with words is, from a machine learning point of view, a classification problem with a high number of classes. 
+In the previous post, we praised the advantages of embedded deep learning algorithms into mobile phones. While the applications are numerous, we will focus on computer vision algorithms, the heart of Comet. One of the most popular task of such algorithms is image classification, ie telling which object appears on a picture. Indeed mobile phones host a diverse and rich photo gallery which then become a personal database difficult to manage especially to recover specific events. Users should be able to have a souvenir in their mind and find the associated images in the most efficient way. A first intuitive approach would be to type in a word corresponding to the content of the image. Searching images with words is, from a machine learning point of view, a classification problem with a high number of classes.
 
 The purpose of this post is to provide a review of the state-of-the-art of image classification algorithms based on the most popular labelled dataset, ImageNet. We will describe some of the innovative architectures which lead to significant improvements.
 Note that reseachers test their algorithms using different datasets (a new ImageNet dataset is released as a new challenge with different images each year). Thus the cited accuracies cannot be directly compared *per se*.
@@ -55,7 +55,7 @@ The main common trend in convolutional neural network models is their increasing
 between the output of one or multiple convolutional layers and their
 original input with an identity mapping. In other words, the model is
 trying to learn a residual function which keeps most of the information
-and produces only slight changes. Consequently, patterns from the input image can be learnt in deeper layers if it's not too much transformed yet. Moreover, this method doesn’t add any additional parameter and doesn’t increase the computational complexity of the model. This model, dubbed "ResNet", is composed of 152 convolutional layers with 3x3 filters using residual learning by
+and produces only slight changes. Consequently, patterns from the input image can be learned in deeper layers if it's not too much transformed yet. Moreover, this method doesn’t add any additional parameter and doesn’t increase the computational complexity of the model. This model, dubbed "ResNet", is composed of 152 convolutional layers with 3x3 filters using residual learning by
 block of two layers. Although it got a top-5 error rate of 4.49% over
 the 2012 ImageNet challenge (less than the Inception V3), the ResNet
 model has won the 2015 challenge with a top-5 error rate of 3.57%.
@@ -69,11 +69,20 @@ One year after the success of the ResNet model, [C. Szegedy and al (2016)](http:
 
 ![51_Inception_ResNet_archi_using_complex_modules](51_Inception_ResNet_archi_using_complex_modules.png)*Inception-ResNet architecture using customized Inception-ResNet modules. Source: [C. Szegedy and al (2016)](http://arxiv.org/abs/1602.07261)*
 
+### Squeeze and Excitation
 Every day, new blocks to improve performance and speed up training
-are proposed. For example, the "Squeeze-and-Excitation" module
+are proposed.
+For example, the "Squeeze-and-Excitation" module
 [(J. Hu, 2017)](https://arxiv.org/abs/1709.01507) uses an architecture combining multiple fully-connected layers, inception modules and residual blocks. One of its main advantages is the low number of parameters (thus reducing computational cost) while retaining a top-5 error rate of 2.25%, promoting him winner of the 2017 ImageNet challenge.
 
 ![61_SE-ResNet_module](61_SE-ResNet_module.png)*Squeeze-Excitation-ResNet module. Source: [J. Hu (2017)](https://arxiv.org/abs/1709.01507)*
+
+### Neural Architecture Search
+Google Brain researchers [(B. Zoph and Q.V. Le, 2017)](https://arxiv.org/pdf/1611.01578.pdf) have released a new concept called Neural Architecture Search (NAS). Basically, it is used as a cell in Recurrent Neural Network to learn its own architecture using reinforcement learning. With a range of operations and hyperparameters, multiple sequences are realized to maximize the accuracy as a signal reward for a given dataset. The objective is to learn the best sequence of operations with a maximum depth to get an optimized architecture. A CNN architecture learn with NAS have reached the state-of-the-art test error rate on the CIFAR-10 dataset.
+
+Using this previous work, [(B. Zoph and al, 2017)](https://arxiv.org/pdf/1707.07012.pdf) have created a model with an architecture block learned using NAS on the CIFRA-10 dataset to perform the ImageNet challenge. These blocks are duplicated and stacked with their own parameters to create the "NASNet" model. The ImageNet dataset is too large to be used for the NAS method but the authors have succeeded to create lighter and speeder block architectures than [C. Szegedy and al (2016)](http://arxiv.org/abs/1602.07261). The model achieved the top-1 state-of-the-art result and a 3.8% error rate over the ImageNet 2012 challenge. A smaller version of less than 50MB is also released with a lower error rate than any other equivalently-sized model. The large model has also reached the new state-of-the-art for the multi-classification task and details will be provided in a next post.
+
+![71_NASnet_A_modules](71_NASnet_A_modules.png)*Architecture of the best convolutional modules learned with NAS computing the next hidden state using the past one as input. Left: the Normal Cell is the module creating the feature maps. Right: the Reduction Cell is the module reducing the size of the feature maps by a factor of two (it replaces max-pooling layers)*
 
 ## Conclusion
 This post described the milestones reached in deep learning for the image classification problem, and more specifically around the ImageNet challenge. However, it is not an exhaustive list of all the existing models. New ones appear every day, as a reminder that image classification is a very active field of research in computer vision.
@@ -90,6 +99,7 @@ Caption: Overview of the top-5 error rates on the 2012, 2014, 2015 and 2017 Imag
 |ResNet|4.49%|x|3.57%|x|
 |Inception-ResNet (Inception V4)|3.08%|x|x|x|
 |SE-ResNet|x|x|x|2.25%|
+|NASNet|3.8%|x|x|x|
 
 Most of them however requires, with a size of hundred of megabytes, a significant computational cost due to the large number of operation involved, even in inference mode. This constitutes a real matter of concern for deep learning models embedded on mobile devices. Optimization of architectures and weights storage in inference also constitutes an active field of research, which will be addressed in an upcoming post.
 
