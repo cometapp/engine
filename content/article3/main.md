@@ -29,4 +29,21 @@ The best Fast R-CNNs have reached mAp scores of 70.0% for the 2007 Pascal VOC te
 
 ![22_Fast_R_CNN_blog](22_Fast_R_CNN_blog.PNG)*The entire image feeds a CNN model to detect RoI on the features maps. Each region is separated using a RoI pooling layer and it feeds fully-connected layers. This vector is used by a softmax classifier to detect the object and by a linear regressor to modify the coordinates of the bounding box. Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
 
-[^1]: The entire architecture is inspired from the VGG16 model, thus it has 16 convolutional layers and 3 fully-connected layers.
+## Faster Region-based Convolutional Network (Faster R-CNN)
+
+Region proposals detected with the selective search method was still necessary in the previous model and it is computationaly expensive. [S. Ren and al. (2016)](https://arxiv.org/pdf/1506.01497.pdf) have introduced Region Proposal Network (RPN) to directly generate region proposals, predict bounding boxes and detect objects. The Faster Region-based Convolutional Network (Faster R-CNN) is a combination between the RPN and the Fast R-CNN model.
+
+A CNN model takes as input the entire image and produces features maps. A window of size 3x3 slices all the features maps and its output is linked to two fully-connected layers, one for box-regression and one for box-classification. Multiple region proposals are predicted by the fully-connected layers. A maximum of k regions is fixed thus the output of the box-regression layer has a size of 4k (coordinates of the box, its height and width) and the output of the box-classification layer a size of 2k ("objectness" scores to detect an object or not in the box). The k region proposals detected by the slicing window are called anchors.
+
+![31_RPN](31_RPN.PNG)*Detecting the anchor boxes for a single 3x3 window. Source: [S. Ren and al. (2016)](https://arxiv.org/pdf/1506.01497.pdf)*
+
+When the anchor boxes are detected, they are selected by applying a threshold over the  "objectness" score to keep only the relevant boxes. These anchor boxes and the features maps computed by the inital CNN model feeds a Fast R-CNN model.
+
+Faster R-CNN uses RPN to avoid the selective search method, it accelerates the training and testing processes and improve the performances.
+Give performances and details about training ...
+
+
+
+
+
+[^1]: The entire architecture is inspired from the VGG16 model, thus it has 13 convolutional layers and 3 fully-connected layers.
