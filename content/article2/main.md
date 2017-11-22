@@ -1,8 +1,5 @@
 # Review of deep learning algorithms for image classification
 
-**Un petit mot sur pourquoi on change de challenge entre 2012, 2014 et 2015. Quelles différences ? rajouter un petit tableau récapitulatif, avec les perfs, les caractéristiques principales, ou alors une timeline des modèles ?**
-
-
 
 ## Why do we need image classification?
 In the previous post, we praised the advantages of embedded deep learning algorithms into mobile phones. While the applications are numerous, we will focus on computer vision algorithms, the heart of Comet. One of the most popular task of such algorithms is image classification, ie telling which object appears on a picture. Indeed mobile phones host a diverse and rich photo gallery which then become a personal database difficult to manage especially to recover specific events. Users should be able to have a souvenir in their mind and find the associated images in the most efficient way. A first intuitive approach would be to type in a word corresponding to the content of the image. Searching images with words is, from a machine learning point of view, a classification problem with a high number of classes.
