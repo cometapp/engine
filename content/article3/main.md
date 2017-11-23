@@ -46,20 +46,44 @@ The best Faster R-CNNs have obtained mAP scores of  78.8% over the 2007 PASCAL V
 
 
 ## Region-based Fully Convolutional Network (R-FCN)
-Fast and Faster R-CNN methodologies consist in detecting region proposals and recognize an object in each region. The Region-based Fully Convolutional Network (R-FCN) released by [J. Dai and al. (2016)](https://arxiv.org/pdf/1605.06409.pdf) is a model with fully connected convolutional layers allowing complete backpropagation for training and fastest inferences. The authors have merged the two basic steps in a single model to take into account simultaneously the object detection (location invariance) and their position (location variance).
+Fast and Faster R-CNN methodologies consist in detecting region proposals and recognize an object in each region. The Region-based Fully Convolutional Network (R-FCN) released by [J. Dai and al. (2016)](https://arxiv.org/pdf/1605.06409.pdf) is a model with fully connected convolutional layers allowing complete backpropagation for training and fastest inferences. The authors have merged the two basic steps in a single model to take into account simultaneously the object detection (location invariance) and its position (location variance).
 
-A 101-layers ResNet model takes the initial image as input. The last layer outputs features maps, each one is specialized in detected a category at a precise location. For example, one features map is specialized in the detection of a cat at the top-right of the image, otherone is specialized in the detection of a banana at the bottom-left of the image and so on. These features maps are called **position-sensitive score maps** because they take into account the spatial localisation of a particular object.
+A 101-layers ResNet model takes the initial image as input. The last layer outputs features maps, each one is specialized in the dectection of a category at a precise location. For example, one features map is specialized in the detection of a cat at the top-right of the image, another one is specialized in the detection of a banana at the bottom-left of the image and so on. These features maps are called **position-sensitive score maps** because they take into account the spatial localisation of a particular object.
 A fully-connected layer associated to the position-sensitive score maps creates a **score bank** of size k^2(C+1), with k*k the shape of the spatial grid describing relative positions and C the the number of object categories.
 
-A Region Proposal Network (RPN) layer is computed to detect the Region of Interest (RoI) using features maps of ResNet model as input. The selected RoIs are reduced in a shape of k*k for each feature map, each one of these region is related to a score in the score bank. A kxk matrix grouping the scores of each features maps for a given local region is aggregated to have a score for each class. The final vector of the aggregate scores is used as input of a softmax to compute the probabilities to detect an object.
-Thus, a given kxk region in the features maps is liked to the object the most likely to be detected.
+A Region Proposal Network (RPN) layer is computed to detect the Region of Interest (RoI) using features maps of ResNet model as input. The selected RoIs are reduced in a shape of k*k for each features map, each one of these region is related to a score in the score bank. A kxk matrix grouping a specific part of each features maps for a given local region is aggregated to have a score for each class using the score bank. The final vector of the aggregate scores is used as input of a softmax to compute the probabilities to detect an object.
+Thus, a given kxk region in the features maps is linked to the object the most likely to be detected.
 
 ![41_R_FCN_blog](41_R_FCN_blog.PNG)*The input image feeds a ResNet model to produce features maps. A RPN model detects the Region of Interests and a score is computed for each region to determine the most likely object if there is one. Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
 
+The concept is difficult to visualize, [J. Dai and al. (2016)](https://arxiv.org/pdf/1605.06409.pdf) have detailed an example displayed bellow. The figures shows the reaction of a R-FCN model specified in the baby detection.
+For a RoI in the center of the image in the Figure 3, the subregions in the features maps are specific to the patterns associated to a baby. Thus they vote for "yes, there is a baby at this location". In the Figure 4, the RoI is shifted to the right and it is no longer center on the baby. The subregions in the features maps are not agree on the baby detection, thus they vote "no, there is no baby at this location".
+
+![42_baby_ex](42_baby_ex.PNG)*Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
+
+The best R-FCNs have reached mAP scores of 83.6% for the 2007 PASCAL VOC test dataset and 82.0%, they have been trained with the 2007, 2012 PASCAL VOC datasets and the COCO dataset. On the 2015 COCO challenge, they have had a score of 53.2% for an IoU = 0.5 and a score of 31.5% for the official mAP metric. The authors noticed that the R-FCN is 2.5-20 times faster than the Faster R-CNN conterpart.
+
+## You Only Look Once (YOLO)
+The YOLO model developped by [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf) directely predict bounding boxes and class probabilities with a single network and with a single evaluation. The simplicity of the YOLO model allow a high number of 
 
 
 
 
+
+## Single Shot Detector (SSD)
+paper: https://arxiv.org/pdf/1512.02325.pdf
+blog 1: https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9
+blog 2: https://towardsdatascience.com/understanding-ssd-multibox-real-time-object-detection-in-deep-learning-495ef744fab
+
+***
+|Model|FPS|
+|-------|-------|
+|R-CNN (with SS)|x|
+|Fast R-CNN (with RPN)|5|
+|Faster R-CNN (with RPN)|x|
+|YOLO|45|
+|Fast YOLO|155|
+Use source from YOLO paper ?
 
 [^1]: The entire architecture is inspired from the VGG16 model, thus it has 13 convolutional layers and 3 fully-connected layers.
 [^2]: The fastest Faster R-CNN has an architecture inspired by the ZFNet model introduced by [M.D. Zeiler and R. Fergus (2013)](https://arxiv.org/pdf/1311.2901.pdf). The commonly used Faster R-CNN has an architecture similar to the VGG16 model and it is 10 times faster than the Fast R-CNN.
