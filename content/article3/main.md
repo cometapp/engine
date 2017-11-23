@@ -1,6 +1,6 @@
 # Article 3: multiclassification
 
-To define: Pascal VOC, COCO, mAP score, IoU
+To define: PASCAL VOC, COCO, mAP score, IoU
 
 ## Region-based Convolutional Network (R-CNN)
 
@@ -11,7 +11,7 @@ The selective search method developed by [J.R.R. Uijlings and al. (2012)](http:/
 The Region-based Convolutional Network (R-CNN) model developed by [R. Girshick and al. (2014)](http://islab.ulsan.ac.kr/files/announcement/513/rcnn_pami.pdf) combines the selective search method to detect region proposals and deep learning to find out the object in these regions. 
 Each region proposal is resized to match the input of a CNN and it extracts a 4096-dimension vector of features. The features vector is feeded into multiple classifiers to produce probabilities to bellong to each class. Each one of these classes has a SVM classifier trained to infer a probability to detect this object for a given vector of features. This vector also feeds a linear regressor to adapt the shapes of the bounding boxe for a region proposal and thus reduce localization errors.
 
-The CNN model described by the authors is trained on the 2012 ImageNet dataset of the original challenge of image classification. It is fine-tuned using the warped region proposal with IoU (MATH?) >= 0.5 with the ground-truth boxes. Two versions are produced, one version is using the 2012 Pascal VOC dataset and the other the 2013 ImageNet dataset with bounding boxes. The SVM classifiers are also trained for each class of each dataset.
+The CNN model described by the authors is trained on the 2012 ImageNet dataset of the original challenge of image classification. It is fine-tuned using the warped region proposal with IoU (MATH?) >= 0.5 with the ground-truth boxes. Two versions are produced, one version is using the 2012 PASCAL VOC dataset and the other the 2013 ImageNet dataset with bounding boxes. The SVM classifiers are also trained for each class of each dataset.
 
 The best R-CNNs models have achieved a 62.4% mAP score over the VOC 2012 test dataset (22.0% increase w.r.t. the second best result on the leader board) and a 31.4% mAP score over the 2013 ImageNet dataset (7.1% increase w.r.t. the second best result on the leader board).
 
@@ -25,7 +25,7 @@ The purpose of the Fast Region-based Convolutional Network (Fast R-CNN) developp
 
 A main CNN with multiple convolutional layers is taking the entire image as input instead of using a CNN for each region proposals (R-CNN). Region of Interests (RoIs) are detected on the produced features maps with the selective search method. Formally, the features maps size is reduced using a RoI pooling layer to get valid Region of Interests by fixing heigh and width as hyper-parameters. Each RoI layer produced feeds fully-connected layers[^1] creating a features vector. The vector is used to predict the observed object with a softmax classfier and to adapt bounding box localizations with a linear regressor. 
 
-The best Fast R-CNNs have reached mAp scores of 70.0% for the 2007 Pascal VOC test dataset, 68.8% for the 2010 Pascal VOC test dataset and 68.4% for the 2012 Pascal VOC test dataset.
+The best Fast R-CNNs have reached mAp scores of 70.0% for the 2007 PASCAL VOC test dataset, 68.8% for the 2010 PASCAL VOC test dataset and 68.4% for the 2012 PASCAL VOC test dataset.
 
 ![22_Fast_R_CNN_blog](22_Fast_R_CNN_blog.PNG)*The entire image feeds a CNN model to detect RoI on the features maps. Each region is separated using a RoI pooling layer and it feeds fully-connected layers. This vector is used by a softmax classifier to detect the object and by a linear regressor to modify the coordinates of the bounding box. Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
 
@@ -33,17 +33,19 @@ The best Fast R-CNNs have reached mAp scores of 70.0% for the 2007 Pascal VOC te
 
 Region proposals detected with the selective search method was still necessary in the previous model and it is computationaly expensive. [S. Ren and al. (2016)](https://arxiv.org/pdf/1506.01497.pdf) have introduced Region Proposal Network (RPN) to directly generate region proposals, predict bounding boxes and detect objects. The Faster Region-based Convolutional Network (Faster R-CNN) is a combination between the RPN and the Fast R-CNN model.
 
-A CNN model takes as input the entire image and produces features maps. A window of size 3x3 slices all the features maps and its output is linked to two fully-connected layers, one for box-regression and one for box-classification. Multiple region proposals are predicted by the fully-connected layers. A maximum of k regions is fixed thus the output of the box-regression layer has a size of 4k (coordinates of the box, its height and width) and the output of the box-classification layer a size of 2k ("objectness" scores to detect an object or not in the box). The k region proposals detected by the slicing window are called anchors.
+A CNN model takes as input the entire image and produces features maps. A window of size 3x3 slices all the features maps and it outputs a features vector linked to two fully-connected layers, one for box-regression and one for box-classification. Multiple region proposals are predicted by the fully-connected layers. A maximum of k regions is fixed thus the output of the box-regression layer has a size of 4k (coordinates of the boxes, their height and width) and the output of the box-classification layer a size of 2k ("objectness" scores to detect an object or not in the box). The k region proposals detected by the slicing window are called anchors.
 
 ![31_RPN](31_RPN.PNG)*Detecting the anchor boxes for a single 3x3 window. Source: [S. Ren and al. (2016)](https://arxiv.org/pdf/1506.01497.pdf)*
 
 When the anchor boxes are detected, they are selected by applying a threshold over the  "objectness" score to keep only the relevant boxes. These anchor boxes and the features maps computed by the inital CNN model feeds a Fast R-CNN model.
 
-Faster R-CNN uses RPN to avoid the selective search method, it accelerates the training and testing processes and improve the performances.
-Give performances and details about training ...
+Faster R-CNN uses RPN to avoid the selective search method, it accelerates the training and testing processes and improve the performances. The RPN uses a pre-trained model over the ImageNet dataset for classification and it is fine-tuned on the PASCAL VOC dataset. Then the generated region proposals with anchor boxes are used to train the Fast R-CNN, this process is iterative. 
 
+The best Faster R-CNNs have obtained mAP scores of  78.8% over the 2007 PASCAL VOC test dataset and 75.9% over the 2012 PASCAL VOC test datset. They have been trained with PASCAL VOC and COCO datasets. One of these models [^2] is 34 times faster than the Fast R-CNN using the selective search method.
 
+![32_faster_R_CNN_blog](32_faster_R_CNN_blog.png)*The entire image feeds a CNN model to produce anchor boxes as region proposals with a confience to contain an object. A Fast R-CNN is used taking as inputs the features maps and the region proposals. For each box, it produces probabilities to detect each object and correction over the location of the box. Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
 
 
 
 [^1]: The entire architecture is inspired from the VGG16 model, thus it has 13 convolutional layers and 3 fully-connected layers.
+[^2]: The fastest Faster R-CNN has an architecture inspired by the ZFNet model introduced by [M.D. Zeiler and R. Fergus (2013)](https://arxiv.org/pdf/1311.2901.pdf). The commonly used Faster R-CNN has an architecture similar to the VGG16 model and it is 10 times faster than the Fast R-CNN.
