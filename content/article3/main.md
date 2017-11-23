@@ -15,7 +15,6 @@ The CNN model described by the authors is trained on the 2012 ImageNet dataset o
 
 The best R-CNNs models have achieved a 62.4% mAP score over the VOC 2012 test dataset (22.0% increase w.r.t. the second best result on the leader board) and a 31.4% mAP score over the 2013 ImageNet dataset (7.1% increase w.r.t. the second best result on the leader board).
 
-![12_R_CNN](12_R_CNN.PNG)*Region-based Convolution Network (R-CNN). (1) It takes an image as input, (2) exacts the region proposals using selective search, (3) computes the features associated to each region and (4) classifies it using SVMs classifiers. Source: [R. Girshick and al. (2016)](http://islab.ulsan.ac.kr/files/announcement/513/rcnn_pami.pdf)*
 
 ![13_R_CNN_blog](13_R_CNN_blog.PNG)*Region-based Convolution Network (R-CNN). Each region proposal feeds a CNN to extract a features vector, possible objects are detected using multiple SVM classifiers and a linear regressor modify the coordinates of the bounding box. Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
 
@@ -44,6 +43,21 @@ Faster R-CNN uses RPN to avoid the selective search method, it accelerates the t
 The best Faster R-CNNs have obtained mAP scores of  78.8% over the 2007 PASCAL VOC test dataset and 75.9% over the 2012 PASCAL VOC test datset. They have been trained with PASCAL VOC and COCO datasets. One of these models [^2] is 34 times faster than the Fast R-CNN using the selective search method.
 
 ![32_faster_R_CNN_blog](32_faster_R_CNN_blog.png)*The entire image feeds a CNN model to produce anchor boxes as region proposals with a confience to contain an object. A Fast R-CNN is used taking as inputs the features maps and the region proposals. For each box, it produces probabilities to detect each object and correction over the location of the box. Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
+
+
+## Region-based Fully Convolutional Network (R-FCN)
+Fast and Faster R-CNN methodologies consist in detecting region proposals and recognize an object in each region. The Region-based Fully Convolutional Network (R-FCN) released by [J. Dai and al. (2016)](https://arxiv.org/pdf/1605.06409.pdf) is a model with fully connected convolutional layers allowing complete backpropagation for training and fastest inferences. The authors have merged the two basic steps in a single model to take into account simultaneously the object detection (location invariance) and their position (location variance).
+
+A 101-layers ResNet model takes the initial image as input. The last layer outputs features maps, each one is specialized in detected a category at a precise location. For example, one features map is specialized in the detection of a cat at the top-right of the image, otherone is specialized in the detection of a banana at the bottom-left of the image and so on. These features maps are called **position-sensitive score maps** because they take into account the spatial localisation of a particular object.
+A fully-connected layer associated to the position-sensitive score maps creates a **score bank** of size k^2(C+1), with k*k the shape of the spatial grid describing relative positions and C the the number of object categories.
+
+A Region Proposal Network (RPN) layer is computed to detect the Region of Interest (RoI) using features maps of ResNet model as input. The selected RoIs are reduced in a shape of k*k for each feature map, each one of these region is related to a score in the score bank. A kxk matrix grouping the scores of each features maps for a given local region is aggregated to have a score for each class. The final vector of the aggregate scores is used as input of a softmax to compute the probabilities to detect an object.
+Thus, a given kxk region in the features maps is liked to the object the most likely to be detected.
+
+![41_R_FCN_blog](41_R_FCN_blog.PNG)*The input image feeds a ResNet model to produce features maps. A RPN model detects the Region of Interests and a score is computed for each region to determine the most likely object if there is one. Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
+
+
+
 
 
 
