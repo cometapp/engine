@@ -110,8 +110,33 @@ The Non-Maximum Suppression method is also used at the end of the SSD model to k
 [W. Liu and al. (2016)](https://arxiv.org/pdf/1512.02325.pdf) distinguish the SSD300 model (the architecture is detailed on the figure above) and the SSD512 model which is the SSD300 with an extra convolutional layer for prediction to improve performances. The best SSDs models are trained with the 2007, 2012 PASCAL VOC datasets and the 2015 COCO dataset with data augmentation. They have obtained mAP scores of 83.2% over the 2007 PASCAL VOC test dataset and 82.2% over the 2012 PASCAL VOC test dataset. Over developer test dataset of the 2015 COCO challenge, they have had a score of 48.5% for an IoU = 0.5, 30.3% for an IoU = 0.75 and 31.5% for the official mAP metric.
 
 
+## YOLO9000 and YOLOv2
+
+[J. Redmon and A. Farhadi (2016)](https://arxiv.org/pdf/1612.08242.pdf) have released a new model called YOLO9000 capable of detecting more than 9000 object categories while still runing in real-time. They also provide ameliorations on the initial YOLO model to improve its performances without decreasing its speed.
+
+### YOLOv2
+The YOLOv2 model is focused on improving accuracy while still being a fast detector. Batch normalization is added to prevent overfitting without using dropout and higher resolution images are accepted as input.
+
+The final fully-connected layer of the YOLO model predicting the coordinates of the bounding boxes has been removed to use anchor boxes instead in the same way as Faster R-CNN. The input image is reduced to a grid and each cell is containing 5 anchor boxes. The YOLOv2 uses hundreds of anchor boxes by image instead of 98 boxes for the YOLO model. YOLOv2 predicts location coordinates relative to the location of the grid cell (the range is between 0 and 1) and selects the boxes according to their confidence as the SSD model. The number of anchor boxes has been fixed using k-means on the training set of bounding boxes with a particular distance metric.
+
+![71_word_tree](71_word_tree.PNG)*Prediction on ImageNet vs WordTree. Source: [J. Redmon and A. Farhadi (2016)](https://arxiv.org/pdf/1612.08242.pdf)*
+
+It uses a ResNet-like architecture to stack high and low resolution features maps to detect smaller objects. The "Darknet-19" is composed of 19 convolutional layers with 3x3 and 1x1 filters, groups of convolutional layers are folowed by maxpooling layers to reduce the output dimension. A final 1x1 convolutional layer outputs 5 boxes per cell of the grid with 5 coordinates and 20 probabilities each (the 20 classes of the PASCAL VOC  dataset).
+
+![72_yolov2_architecture](72_yolov2_architecture.PNG)*YOLOv2 architecture. Source: [J. Redmon and A. Farhadi (2016)](https://arxiv.org/pdf/1612.08242.pdf)*
+
+The YOLOv2 model trained with the 2007 and 2012 PASCAL VOC dataset has a 78.6% mAP score over the 2007 PASCAL VOC test dataset with a FPS value of 40. The model trained with the 2015 COCO dataset have mAP scores over the developer test of 44.0% for an IoU = 0.5, 19.2% for an IoU = 0.75 and 21.6% for the official mAP metric.
+
+## YOLO9000
+
+The authors have combined the ImageNet dataset with the COCO dataset in order to have a model capable of detect precise objects or animal breed. The ImageNet dataset for classification contains 1000 categories and the 2015 COCO dataset only 80 categories. The ImageNet classes are based on the WordNet lexicon developed by the Princeton University [^4] and it is composed with more than 20 000 words. [J. Redmon and A. Farhadi (2016)](https://arxiv.org/pdf/1612.08242.pdf) detail a method with the tree version of the WordNet. A softmax is applied on a group of labels with the same hyponym when the model predicts on an image. Thus the final probability associated to a label is computed with posterior probabilities in the tree. When the authors extend the concept to the entire WordNet lexicon excluding under represented categories, they obtain more than 9 000 categories.
+
+A combinaison between the COCO and the ImageNet datasets is used to train a YOLOv2-like architecture with 3 prior convolution layers instead of 5 to limite the output size. The model is evaluated on the ImageNet dataset for the detection task with around 200 labels. Only 44 labels are shared between the training and the testing dataset so the results are not relevant. It gets a 19.7 mAP score overall the test dataset.
+
+
 ONE MORE (2017) MASK RCNN pixel lever: https://arxiv.org/abs/1703.06870
 
 [^1]: The entire architecture is inspired from the VGG16 model, thus it has 13 convolutional layers and 3 fully-connected layers.
 [^2]: The fastest Faster R-CNN has an architecture inspired by the ZFNet model introduced by [M.D. Zeiler and R. Fergus (2013)](https://arxiv.org/pdf/1311.2901.pdf). The commonly used Faster R-CNN has an architecture similar to the VGG16 model and it is 10 times faster than the Fast R-CNN.
 [^3]: It reduces the features space from the previous layers.
+[^4]: Details are provided in the previous blog post.
