@@ -48,7 +48,7 @@ The best Faster R-CNNs have obtained mAP scores of  78.8% over the 2007 PASCAL V
 ## Region-based Fully Convolutional Network (R-FCN)
 Fast and Faster R-CNN methodologies consist in detecting region proposals and recognize an object in each region. The Region-based Fully Convolutional Network (R-FCN) released by [J. Dai and al. (2016)](https://arxiv.org/pdf/1605.06409.pdf) is a model with fully connected convolutional layers allowing complete backpropagation for training and fastest inferences. The authors have merged the two basic steps in a single model to take into account simultaneously the object detection (location invariance) and its position (location variance).
 
-A 101-layers ResNet model takes the initial image as input. The last layer outputs features maps, each one is specialized in the dectection of a category at a precise location. For example, one features map is specialized in the detection of a cat at the top-right of the image, another one is specialized in the detection of a banana at the bottom-left of the image and so on. These features maps are called **position-sensitive score maps** because they take into account the spatial localisation of a particular object.
+A 101-layers [ResNet](https://arxiv.org/pdf/1512.03385.pdf) model takes the initial image as input. The last layer outputs features maps, each one is specialized in the dectection of a category at a precise location. For example, one features map is specialized in the detection of a cat at the top-right of the image, another one is specialized in the detection of a banana at the bottom-left of the image and so on. These features maps are called **position-sensitive score maps** because they take into account the spatial localisation of a particular object.
 A fully-connected layer associated to the position-sensitive score maps creates a **score bank** of size k^2(C+1), with k*k the shape of the spatial grid describing relative positions and C the the number of object categories.
 
 A Region Proposal Network (RPN) layer is computed to detect the Region of Interest (RoI) using features maps of ResNet model as input. The selected RoIs are reduced in a shape of k*k for each features map, each one of these region is related to a score in the score bank. A kxk matrix grouping a specific part of each features maps for a given local region is aggregated to have a score for each class using the score bank. The final vector of the aggregate scores is used as input of a softmax to compute the probabilities to detect an object.
@@ -64,9 +64,30 @@ For a RoI in the center of the image in the Figure 3, the subregions in the feat
 The best R-FCNs have reached mAP scores of 83.6% for the 2007 PASCAL VOC test dataset and 82.0%, they have been trained with the 2007, 2012 PASCAL VOC datasets and the COCO dataset. On the 2015 COCO challenge, they have had a score of 53.2% for an IoU = 0.5 and a score of 31.5% for the official mAP metric. The authors noticed that the R-FCN is 2.5-20 times faster than the Faster R-CNN conterpart.
 
 ## You Only Look Once (YOLO)
-The YOLO model developped by [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf) directely predict bounding boxes and class probabilities with a single network and with a single evaluation. The simplicity of the YOLO model allow a high number of 
+The YOLO model developped by [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf) directely predict bounding boxes and class probabilities with a single network and a single evaluation. The simplicity of the YOLO model allow a high frequence of computation to realize real-time predictions.
 
+Initially, the model takes an image as input, it divides it into an SxS grid and each cell associated to a grid predicts B bounding boxes and their confidence scores. This confidence is simply the probability to detect the object multiply by the IoU between the predicted and the ground truth boxes.
 
+![51_yolo_ex](51_yolo_ex.PNG)*Example of application. The input image is divided into an SxS grid, B bounding boxes are predicted (regression) and a class is predicted among C classes (classification) over the most confident ones. Source: [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf)*
+
+The CNN used is inspired by the [GoogLeNet](https://arxiv.org/pdf/1409.4842.pdf) model introducing the inception modules. The network has 24 convolutional layers followed by 2 fully-connected layers. Reduction layers with 1x1 filters [^3] followed by 3x3 convolutional layers replace the initial inception modules. The Fast YOLO model is a lighter version with only 9 convolutional layers and fewer number of filters. Most of the convolutional layers are trained using the ImageNet dataset with classification. Four convolutional layers followed by two fully-connected layers following the previous network, these layers are trained with the 2007 and 2012 PASCAL VOC datasets. 
+
+The final layer outputs a SxSx(C+B*5) tensor corresponding to the predictions for each cell of the grid. C is the number of estimated probabilities for each class. B is the fixed number of bouding boxes each one related to 4 coordinates (coordinates of the center of the box, width and height) and a confidence value.
+
+![52_yolo_architecture](52_yolo_architecture.PNG)*YOLO architecture: it is composed of 24 convolutional layers and 2 fully-connected layers. Source: [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf)*
+
+The YOLO model has a 63.7% mAP score over the 2007 PASCAL VOC dataset and a 57.9% mAP score over the 2012 PASCAL VOC dataset. The Fast YOLO model has lower scores but they have both real time performances.
+
+Caption: Real Time Systems on PASCAL VOC 2007. Comparaison of speeds and performances for models trained with the 2007 and 2012 PASCAL VOC datasets. The results provided correspond to the implementations of [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf).
+
+|Model|mAP|FPS|Real Time speed|
+|-------|-------|-------|-------|
+|Fast YOLO|52.7|**155**|Yes|
+|YOLO|**63.4**|45|Yes|
+|YOLO VGG-16|66.4|21|No|
+|Fast R-CNN|70.0|0.5|No|
+|Faster R-CNN VGG-16|73.2|7|No|
+|Faster R-CNN ZF|62.1|18|No|
 
 
 
@@ -87,3 +108,4 @@ Use source from YOLO paper ?
 
 [^1]: The entire architecture is inspired from the VGG16 model, thus it has 13 convolutional layers and 3 fully-connected layers.
 [^2]: The fastest Faster R-CNN has an architecture inspired by the ZFNet model introduced by [M.D. Zeiler and R. Fergus (2013)](https://arxiv.org/pdf/1311.2901.pdf). The commonly used Faster R-CNN has an architecture similar to the VGG16 model and it is 10 times faster than the Fast R-CNN.
+[^3]: It reduces the features space from the previous layers.
