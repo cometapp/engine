@@ -32,7 +32,7 @@ The best Fast R-CNNs have reached mAp scores of 70.0% for the 2007 PASCAL VOC te
 
 Region proposals detected with the selective search method was still necessary in the previous model and it is computationaly expensive. [S. Ren and al. (2016)](https://arxiv.org/pdf/1506.01497.pdf) have introduced Region Proposal Network (RPN) to directly generate region proposals, predict bounding boxes and detect objects. The Faster Region-based Convolutional Network (Faster R-CNN) is a combination between the RPN and the Fast R-CNN model.
 
-A CNN model takes as input the entire image and produces features maps. A window of size 3x3 slices all the features maps and it outputs a features vector linked to two fully-connected layers, one for box-regression and one for box-classification. Multiple region proposals are predicted by the fully-connected layers. A maximum of k regions is fixed thus the output of the box-regression layer has a size of 4k (coordinates of the boxes, their height and width) and the output of the box-classification layer a size of 2k ("objectness" scores to detect an object or not in the box). The k region proposals detected by the slicing window are called anchors.
+A CNN model takes as input the entire image and produces features maps. A window of size 3x3 slides all the features maps and it outputs a features vector linked to two fully-connected layers, one for box-regression and one for box-classification. Multiple region proposals are predicted by the fully-connected layers. A maximum of k regions is fixed thus the output of the box-regression layer has a size of 4k (coordinates of the boxes, their height and width) and the output of the box-classification layer a size of 2k ("objectness" scores to detect an object or not in the box). The k region proposals detected by the slicing window are called anchors.
 
 ![31_RPN](31_RPN.PNG)*Detecting the anchor boxes for a single 3x3 window. Source: [S. Ren and al. (2016)](https://arxiv.org/pdf/1506.01497.pdf)*
 
@@ -61,7 +61,7 @@ For a RoI in the center of the image in the Figure 3, the subregions in the feat
 
 ![42_baby_ex](42_baby_ex.PNG)*Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
 
-The best R-FCNs have reached mAP scores of 83.6% for the 2007 PASCAL VOC test dataset and 82.0%, they have been trained with the 2007, 2012 PASCAL VOC datasets and the COCO dataset. On the 2015 COCO challenge, they have had a score of 53.2% for an IoU = 0.5 and a score of 31.5% for the official mAP metric. The authors noticed that the R-FCN is 2.5-20 times faster than the Faster R-CNN conterpart.
+The best R-FCNs have reached mAP scores of 83.6% for the 2007 PASCAL VOC test dataset and 82.0%, they have been trained with the 2007, 2012 PASCAL VOC datasets and the COCO dataset. Over the developer test dataset of the 2015 COCO challenge, they have had a score of 53.2% for an IoU = 0.5 and a score of 31.5% for the official mAP metric. The authors noticed that the R-FCN is 2.5-20 times faster than the Faster R-CNN conterpart.
 
 ## You Only Look Once (YOLO)
 The YOLO model developped by [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf) directely predict bounding boxes and class probabilities with a single network and a single evaluation. The simplicity of the YOLO model allow a high frequence of computation to realize real-time predictions.
@@ -74,7 +74,7 @@ The CNN used is inspired by the [GoogLeNet](https://arxiv.org/pdf/1409.4842.pdf)
 
 The final layer outputs a SxSx(C+B*5) tensor corresponding to the predictions for each cell of the grid. C is the number of estimated probabilities for each class. B is the fixed number of bouding boxes each one related to 4 coordinates (coordinates of the center of the box, width and height) and a confidence value.
 
-With the previous models, the predicted bounding boxes were often containing an object. The YOLO model predict a high number of bounding boxes on the entire image thus there are a lot of bounding boxes without any object. The Non-Maximum Suppression (NMS) method is applied at the end of the network. It consists in grouping highly-overlapping bounding boxes into a single one by keeping the boxe with the higher confidence value.
+With the previous models, the predicted bounding boxes were often containing an object. The YOLO model predict a high number of bounding boxes on the entire image thus there are a lot of bounding boxes without any object. The Non-Maximum Suppression (NMS) method is applied at the end of the network. It consists in grouping highly-overlapping bounding boxes into a single one by keeping the boxe with the higher confidence value. The authors noticed that there are still few false positive detected.
 
 ![52_yolo_architecture](52_yolo_architecture.PNG)*YOLO architecture: it is composed of 24 convolutional layers and 2 fully-connected layers. Source: [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf)*
 
@@ -94,20 +94,23 @@ Caption: Real Time Systems on PASCAL VOC 2007. Comparaison of speeds and perform
 
 
 ## Single-Shot Detector (SSD)
-paper: https://arxiv.org/pdf/1512.02325.pdf
-blog 1: https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9
-blog 2: https://towardsdatascience.com/understanding-ssd-multibox-real-time-object-detection-in-deep-learning-495ef744fab
 
 As the YOLO model, [W. Liu and al. (2016)](https://arxiv.org/pdf/1512.02325.pdf) have developped a Single-Shot Detector (SSD) to predict all at once the bounding boxes and the class probabilities with a particular CNN architecture.
 
-The model takes an image as input and it is used through multiple convolutional layers with different size of filter (10x10, 5x5 and 3x3). Features maps from different convolutional layers at different position of the network are used to predict the bounding boxes. They are processed by a specific convolutional layers with 3x3 filters called extra feature layers to produce a set of bounding boxes similar to the anchor boxes of the Fast R-CNN. 
+The model takes an image as input and it is used through multiple convolutional layers with different size of filter (10x10, 5x5 and 3x3). Features maps from convolutional layers at different position of the network are used to predict the bounding boxes. They are processed by a specific convolutional layers with 3x3 filters called extra feature layers to produce a set of bounding boxes similar to the anchor boxes of the Fast R-CNN. 
+
+![62_ssd_architecture](62_ssd_architecture.PNG)*Comparison between the SSD and the YOLO architectures. The SSD model uses extra feature layers from different features maps of the network in order to increase the number of relevant bounding boxes. Source: [W. Liu and al. (2016)](https://arxiv.org/pdf/1512.02325.pdf)*
 
 The detected boxes have 4 parameters: the coordinates of the center of the box, the width and the height. The model predicts a variation of the coordinates of the center of the box to optimize the spatial location. At the same time, it produces a vector of probabilities corresponding to the confience over each class of object.
 
-The Non-Maximum Suppression method is also used at the end of the SSD model to keep the most relevant bounding boxes.
+![61_ssd_ex](61_ssd_ex.PNG)*SSD Framework. (a) The model takes an image and its ground truth bounding boxes. Small sets of boxes with different aspect ratios are fixed by the different features map ((b) and (c)). During training, the boxes localization are modified to best match the ground truth.*
 
-Hard negative mining
+The Non-Maximum Suppression method is also used at the end of the SSD model to keep the most relevant bounding boxes. The Hard Negative Mining (HNM) is then used because negative boxes are still predicted. It consists in selecting only a subpart of negative boxes during the training. The boxes are ordered by confidence and the top is selected depending on the ratio between the negative and the positive which is at most 1/3.
 
+[W. Liu and al. (2016)](https://arxiv.org/pdf/1512.02325.pdf) distinguish the SSD300 model (the architecture is detailed on the figure above) and the SSD512 model which is the SSD300 with an extra convolutional layer for prediction to improve performances. The best SSDs models are trained with the 2007, 2012 PASCAL VOC datasets and the 2015 COCO dataset with data augmentation. They have obtained mAP scores of 83.2% over the 2007 PASCAL VOC test dataset and 82.2% over the 2012 PASCAL VOC test dataset. Over developer test dataset of the 2015 COCO challenge, they have had a score of 48.5% for an IoU = 0.5, 30.3% for an IoU = 0.75 and 31.5% for the official mAP metric.
+
+
+ONE MORE (2017) MASK RCNN pixel lever: https://arxiv.org/abs/1703.06870
 
 [^1]: The entire architecture is inspired from the VGG16 model, thus it has 13 convolutional layers and 3 fully-connected layers.
 [^2]: The fastest Faster R-CNN has an architecture inspired by the ZFNet model introduced by [M.D. Zeiler and R. Fergus (2013)](https://arxiv.org/pdf/1311.2901.pdf). The commonly used Faster R-CNN has an architecture similar to the VGG16 model and it is 10 times faster than the Fast R-CNN.
