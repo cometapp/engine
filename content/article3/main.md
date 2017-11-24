@@ -74,11 +74,13 @@ The CNN used is inspired by the [GoogLeNet](https://arxiv.org/pdf/1409.4842.pdf)
 
 The final layer outputs a SxSx(C+B*5) tensor corresponding to the predictions for each cell of the grid. C is the number of estimated probabilities for each class. B is the fixed number of bouding boxes each one related to 4 coordinates (coordinates of the center of the box, width and height) and a confidence value.
 
+With the previous models, the predicted bounding boxes were often containing an object. The YOLO model predict a high number of bounding boxes on the entire image thus there are a lot of bounding boxes without any object. The Non-Maximum Suppression (NMS) method is applied at the end of the network. It consists in grouping highly-overlapping bounding boxes into a single one by keeping the boxe with the higher confidence value.
+
 ![52_yolo_architecture](52_yolo_architecture.PNG)*YOLO architecture: it is composed of 24 convolutional layers and 2 fully-connected layers. Source: [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf)*
 
 The YOLO model has a 63.7% mAP score over the 2007 PASCAL VOC dataset and a 57.9% mAP score over the 2012 PASCAL VOC dataset. The Fast YOLO model has lower scores but they have both real time performances.
 
-Caption: Real Time Systems on PASCAL VOC 2007. Comparaison of speeds and performances for models trained with the 2007 and 2012 PASCAL VOC datasets. The results provided correspond to the implementations of [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf).
+Caption: Real Time Systems on PASCAL VOC 2007. Comparaison of speeds and performances for models trained with the 2007 and 2012 PASCAL VOC datasets. The published resultsa correspond to the implementations of [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf).
 
 |Model|mAP|FPS|Real Time speed|
 |-------|-------|-------|-------|
@@ -91,20 +93,21 @@ Caption: Real Time Systems on PASCAL VOC 2007. Comparaison of speeds and perform
 
 
 
-## Single Shot Detector (SSD)
+## Single-Shot Detector (SSD)
 paper: https://arxiv.org/pdf/1512.02325.pdf
 blog 1: https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9
 blog 2: https://towardsdatascience.com/understanding-ssd-multibox-real-time-object-detection-in-deep-learning-495ef744fab
 
-***
-|Model|FPS|
-|-------|-------|
-|R-CNN (with SS)|x|
-|Fast R-CNN (with RPN)|5|
-|Faster R-CNN (with RPN)|x|
-|YOLO|45|
-|Fast YOLO|155|
-Use source from YOLO paper ?
+As the YOLO model, [W. Liu and al. (2016)](https://arxiv.org/pdf/1512.02325.pdf) have developped a Single-Shot Detector (SSD) to predict all at once the bounding boxes and the class probabilities with a particular CNN architecture.
+
+The model takes an image as input and it is used through multiple convolutional layers with different size of filter (10x10, 5x5 and 3x3). Features maps from different convolutional layers at different position of the network are used to predict the bounding boxes. They are processed by a specific convolutional layers with 3x3 filters called extra feature layers to produce a set of bounding boxes similar to the anchor boxes of the Fast R-CNN. 
+
+The detected boxes have 4 parameters: the coordinates of the center of the box, the width and the height. The model predicts a variation of the coordinates of the center of the box to optimize the spatial location. At the same time, it produces a vector of probabilities corresponding to the confience over each class of object.
+
+The Non-Maximum Suppression method is also used at the end of the SSD model to keep the most relevant bounding boxes.
+
+Hard negative mining
+
 
 [^1]: The entire architecture is inspired from the VGG16 model, thus it has 13 convolutional layers and 3 fully-connected layers.
 [^2]: The fastest Faster R-CNN has an architecture inspired by the ZFNet model introduced by [M.D. Zeiler and R. Fergus (2013)](https://arxiv.org/pdf/1311.2901.pdf). The commonly used Faster R-CNN has an architecture similar to the VGG16 model and it is 10 times faster than the Fast R-CNN.
