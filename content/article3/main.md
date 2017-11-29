@@ -136,18 +136,44 @@ A combinaison between the COCO and the ImageNet datasets is used to train a YOLO
 
 ## Neural Architecture Search Net (NASNet)
 
-The Neural Architecture Search developed by [(B. Zoph and Q.V. Le, 2017)](https://arxiv.org/pdf/1611.01578.pdf) is detailed in our previous post. It consists in learning the architecture of a model to optimize the number of layers while performing the accuracy on a given dataset. [B. Zoph and al. (2017)](https://arxiv.org/pdf/1707.07012.pdf) have reached higher performances with lighter model than previous works over the 2012 ImageNet classification challenge. 
+The Neural Architecture Search recently developed by [B. Zoph and Q.V. Le (2017)](https://arxiv.org/pdf/1611.01578.pdf) is detailed in our previous post. It consists in learning the architecture of a model to optimize the number of layers while performing the accuracy on a given dataset. [B. Zoph and al. (2017)](https://arxiv.org/pdf/1707.07012.pdf) have reached higher performances with lighter model than previous works over the 2012 ImageNet classification challenge. 
 
 The authors have applied this method to spatial object detection. The NASNet network has an architecture learned from the CIFAR-10 dataset and it is trained with the 2012 ImageNet dataset. This model is used for features maps generation and it is stacked into the Faster R-CNN pipeline. Then the entire pipeline is retrained with the COCO dataset.
 
-The best NASNet models for object recognition have obtained a 43.1% official mAP score over the test developer dataset of the COCO challenge. The lighter version of the NASNet optimized for mobile have a 29.6% mAP score overt the same dataset.
+
+The best NASNet models for object recognition have obtained a 43.1% mAP score over the test developer dataset of the COCO challenge with an IoU = 0.5. The lighter version of the NASNet optimized for mobile have a 29.6% mAP score over the same dataset.
 
 ![81_nasnet_ex](81_nasnet_ex.PNG)*Example of object detection results. Comparison of Faster R-CNN pipelines one is using [Inception-ResNet](http://arxiv.org/abs/1602.07261) as features maps generator (top) and the other the NASNet model (bottom). Source: [B. Zoph and al. (2017)](https://arxiv.org/pdf/1707.07012.pdf)*
 
+## Mask Region-based Convolutional Network (Mask R-CNN)
+
+Another extension of the Faster R-CNN model has been released by [K. He and al. (2017)](https://arxiv.org/pdf/1703.06870.pdf) adding a parallele branch to the bounding box detection in order to predict object mask. The mask of an object is its segmentation by pixel in an image. This model outperforms the state-of-the-art in the three COCO challenges: the instance segmentation, the bounding box detection object detection and the keypoint detection.
+
+![91_mask_rcnn_ex](91_mask_rcnn_ex.PNG)*Exemples of Mask R-CNN application on the COCO test dataset. The model detects each object of an image, its localisation and its precise segmentation by pixel. Source: [K. He and al. (2017)](https://arxiv.org/pdf/1703.06870.pdf)*
+
+The Mask Region-based Convolutional Network (Mask R-CNN) uses the Faster R-CNN pipeline with three output branches for each candidate object: a class label, a bounding box offset and the object mask. It uses Region Proposal Network (RPN) to generate bounding box proposals and produces the three outputs at the same time for each Region of Interest (RoI). Three loss functions associated to each task to solve are summed. This sum is minimized and produces great performances because of solving the segmentation task improve the localisation and thus the classification. 
+
+The initial RoIPool layer used in the Faster R-CNN is replaced by a RoIAlign layer. It removes the quantization of the coordinates of the original RoI and computes the exact values of the locations. The RoIAlign layer provides scale-equivarience and translation-equivariance with the region proposals.
+
+Architecture (p4)
+
+Mask R-CNN with ResNet-101
+ResNeXt-101 => https://arxiv.org/pdf/1611.05431.pdf
+
+benefits with multi task training (mask RCNN > RCNN + RoIAlign)
+
+prendre image du tuto ?
+
+
+tuto slides: http://kaiminghe.com/iccv17tutorial/maskrcnn_iccv2017_tutorial_kaiminghe.pdf
+
+workshop imagenet: http://image-net.org/challenges/talks/2016/ECCV2016_ilsvrc_coco_detection_segmentation.pdf
+
+
+## Conclusion
 
 
 
-ONE MORE (2017) MASK RCNN pixel lever: https://arxiv.org/abs/1703.06870
 
 [^1]: The entire architecture is inspired from the VGG16 model, thus it has 13 convolutional layers and 3 fully-connected layers.
 [^2]: The fastest Faster R-CNN has an architecture inspired by the ZFNet model introduced by [M.D. Zeiler and R. Fergus (2013)](https://arxiv.org/pdf/1311.2901.pdf). The commonly used Faster R-CNN has an architecture similar to the VGG16 model and it is 10 times faster than the Fast R-CNN.
