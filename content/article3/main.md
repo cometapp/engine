@@ -136,13 +136,13 @@ A combinaison between the COCO and the ImageNet datasets is used to train a YOLO
 
 ## Neural Architecture Search Net (NASNet)
 
-The Neural Architecture Search developed by [(B. Zoph and Q.V. Le, 2017)](https://arxiv.org/pdf/1611.01578.pdf) is detailed in our previous post. It consists in learning the architecture of a model to optimize the number of layer while performing the accuracy on a given dataset. [B. Zoph and al. (2017)](https://arxiv.org/pdf/1707.07012.pdf) have reached higher performances with lighter model than previous work on the 2012 ImageNet classification challenge. 
+The Neural Architecture Search developed by [(B. Zoph and Q.V. Le, 2017)](https://arxiv.org/pdf/1611.01578.pdf) is detailed in our previous post. It consists in learning the architecture of a model to optimize the number of layers while performing the accuracy on a given dataset. [B. Zoph and al. (2017)](https://arxiv.org/pdf/1707.07012.pdf) have reached higher performances with lighter model than previous works over the 2012 ImageNet classification challenge. 
 
-The authors have applied this method to spatial object detection. The NASNet network used has an architecture learned from the CIFAR-10 dataset and it is trained with the 2012 ImageNet dataset. This model is stacked for object classficiation into the Faster R-CNN pipeline and it is retrained with the COCO dataset.
+The authors have applied this method to spatial object detection. The NASNet network has an architecture learned from the CIFAR-10 dataset and it is trained with the 2012 ImageNet dataset. This model is used for features maps generation and it is stacked into the Faster R-CNN pipeline. Then the entire pipeline is retrained with the COCO dataset.
 
 The best NASNet models for object recognition have obtained a 43.1% official mAP score over the test developer dataset of the COCO challenge. The lighter version of the NASNet optimized for mobile have a 29.6% mAP score overt the same dataset.
 
-![81_nasnet_ex](81_nasnet_ex.PNG)*Example of object detection results. Comparison of Faster R-CNN pipelines one is using [Inception-ResNet](http://arxiv.org/abs/1602.07261) as object classficiation model (top) and the other the NASNet model (bottom). Source: [B. Zoph and al. (2017)](https://arxiv.org/pdf/1707.07012.pdf)*
+![81_nasnet_ex](81_nasnet_ex.PNG)*Example of object detection results. Comparison of Faster R-CNN pipelines one is using [Inception-ResNet](http://arxiv.org/abs/1602.07261) as features maps generator (top) and the other the NASNet model (bottom). Source: [B. Zoph and al. (2017)](https://arxiv.org/pdf/1707.07012.pdf)*
 
 
 
