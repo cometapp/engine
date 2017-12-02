@@ -61,7 +61,7 @@ For a RoI in the center of the image in the Figure 3, the subregions in the feat
 
 ![42_baby_ex](42_baby_ex.PNG)*Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
 
-The best R-FCNs have reached mAP scores of 83.6% for the 2007 PASCAL VOC test dataset and 82.0%, they have been trained with the 2007, 2012 PASCAL VOC datasets and the COCO dataset. Over the developer test dataset of the 2015 COCO challenge, they have had a score of 53.2% for an IoU = 0.5 and a score of 31.5% for the official mAP metric. The authors noticed that the R-FCN is 2.5-20 times faster than the Faster R-CNN conterpart.
+The best R-FCNs have reached mAP scores of 83.6% for the 2007 PASCAL VOC test dataset and 82.0%, they have been trained with the 2007, 2012 PASCAL VOC datasets and the COCO dataset. Over the test-dev dataset of the 2015 COCO challenge, they have had a score of 53.2% for an IoU = 0.5 and a score of 31.5% for the official mAP metric. The authors noticed that the R-FCN is 2.5-20 times faster than the Faster R-CNN conterpart.
 
 ## You Only Look Once (YOLO)
 The YOLO model developped by [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf) directely predict bounding boxes and class probabilities with a single network and a single evaluation. The simplicity of the YOLO model allow a high frequence of computation to realize real-time predictions.
@@ -107,7 +107,7 @@ The detected boxes have 4 parameters: the coordinates of the center of the box, 
 
 The Non-Maximum Suppression method is also used at the end of the SSD model to keep the most relevant bounding boxes. The Hard Negative Mining (HNM) is then used because negative boxes are still predicted. It consists in selecting only a subpart of negative boxes during the training. The boxes are ordered by confidence and the top is selected depending on the ratio between the negative and the positive which is at most 1/3.
 
-[W. Liu and al. (2016)](https://arxiv.org/pdf/1512.02325.pdf) distinguish the SSD300 model (the architecture is detailed on the figure above) and the SSD512 model which is the SSD300 with an extra convolutional layer for prediction to improve performances. The best SSDs models are trained with the 2007, 2012 PASCAL VOC datasets and the 2015 COCO dataset with data augmentation. They have obtained mAP scores of 83.2% over the 2007 PASCAL VOC test dataset and 82.2% over the 2012 PASCAL VOC test dataset. Over developer test dataset of the 2015 COCO challenge, they have had a score of 48.5% for an IoU = 0.5, 30.3% for an IoU = 0.75 and 31.5% for the official mAP metric.
+[W. Liu and al. (2016)](https://arxiv.org/pdf/1512.02325.pdf) distinguish the SSD300 model (the architecture is detailed on the figure above) and the SSD512 model which is the SSD300 with an extra convolutional layer for prediction to improve performances. The best SSDs models are trained with the 2007, 2012 PASCAL VOC datasets and the 2015 COCO dataset with data augmentation. They have obtained mAP scores of 83.2% over the 2007 PASCAL VOC test dataset and 82.2% over the 2012 PASCAL VOC test dataset. Over test-dev dataset of the 2015 COCO challenge, they have had a score of 48.5% for an IoU = 0.5, 30.3% for an IoU = 0.75 and 31.5% for the official mAP metric.
 
 
 ## YOLO9000 and YOLOv2
@@ -123,7 +123,7 @@ It uses a ResNet-like architecture to stack high and low resolution features map
 
 ![72_yolov2_architecture](72_yolov2_architecture.PNG)*YOLOv2 architecture. Source: [J. Redmon and A. Farhadi (2016)](https://arxiv.org/pdf/1612.08242.pdf)*
 
-The YOLOv2 model trained with the 2007 and 2012 PASCAL VOC dataset has a 78.6% mAP score over the 2007 PASCAL VOC test dataset with a FPS value of 40. The model trained with the 2015 COCO dataset have mAP scores over the developer test of 44.0% for an IoU = 0.5, 19.2% for an IoU = 0.75 and 21.6% for the official mAP metric.
+The YOLOv2 model trained with the 2007 and 2012 PASCAL VOC dataset has a 78.6% mAP score over the 2007 PASCAL VOC test dataset with a FPS value of 40. The model trained with the 2015 COCO dataset have mAP scores over the test-dev dataset of 44.0% for an IoU = 0.5, 19.2% for an IoU = 0.75 and 21.6% for the official mAP metric.
 
 ### YOLO9000
 
@@ -140,8 +140,7 @@ The Neural Architecture Search recently developed by [B. Zoph and Q.V. Le (2017)
 
 The authors have applied this method to spatial object detection. The NASNet network has an architecture learned from the CIFAR-10 dataset and it is trained with the 2012 ImageNet dataset. This model is used for features maps generation and it is stacked into the Faster R-CNN pipeline. Then the entire pipeline is retrained with the COCO dataset.
 
-
-The best NASNet models for object recognition have obtained a 43.1% mAP score over the test developer dataset of the COCO challenge with an IoU = 0.5. The lighter version of the NASNet optimized for mobile have a 29.6% mAP score over the same dataset.
+The best NASNet models for object recognition have obtained a 43.1% mAP score over the test-dev dataset of the COCO challenge with an IoU = 0.5. The lighter version of the NASNet optimized for mobile have a 29.6% mAP score over the same dataset.
 
 ![81_nasnet_ex](81_nasnet_ex.PNG)*Example of object detection results. Comparison of Faster R-CNN pipelines one is using [Inception-ResNet](http://arxiv.org/abs/1602.07261) as features maps generator (top) and the other the NASNet model (bottom). Source: [B. Zoph and al. (2017)](https://arxiv.org/pdf/1707.07012.pdf)*
 
@@ -151,23 +150,17 @@ Another extension of the Faster R-CNN model has been released by [K. He and al. 
 
 ![91_mask_rcnn_ex](91_mask_rcnn_ex.PNG)*Exemples of Mask R-CNN application on the COCO test dataset. The model detects each object of an image, its localisation and its precise segmentation by pixel. Source: [K. He and al. (2017)](https://arxiv.org/pdf/1703.06870.pdf)*
 
-The Mask Region-based Convolutional Network (Mask R-CNN) uses the Faster R-CNN pipeline with three output branches for each candidate object: a class label, a bounding box offset and the object mask. It uses Region Proposal Network (RPN) to generate bounding box proposals and produces the three outputs at the same time for each Region of Interest (RoI). Three loss functions associated to each task to solve are summed. This sum is minimized and produces great performances because of solving the segmentation task improve the localisation and thus the classification. 
+The Mask Region-based Convolutional Network (Mask R-CNN) uses the Faster R-CNN pipeline with three output branches for each candidate object: a class label, a bounding box offset and the object mask. It uses Region Proposal Network (RPN) to generate bounding box proposals and produces the three outputs at the same time for each Region of Interest (RoI).
 
 The initial RoIPool layer used in the Faster R-CNN is replaced by a RoIAlign layer. It removes the quantization of the coordinates of the original RoI and computes the exact values of the locations. The RoIAlign layer provides scale-equivarience and translation-equivariance with the region proposals.
 
-Architecture (p4)
+The model takes an image as input and feeds a [ResNeXt](https://arxiv.org/pdf/1611.05431.pdf) network with 101 layers. This model looks like a ResNet but each residual block is cutted into lighter transformations which are aggregated adding sparsity in the block. The model detects RoIs which are processed using a RoIAlign layer. One branch of the network is linked to a fully-connected layer, it computes the coordinates of the bounding boxes and the probabilities associated to the objects. The other branch is linked to two convolutional layers, the last one computes the mask of the detected object.
 
-Mask R-CNN with ResNet-101
-ResNeXt-101 => https://arxiv.org/pdf/1611.05431.pdf
+Three loss functions associated to each task to solve are summed. This sum is minimized and produces great performances because solving the segmentation task improve the localisation and thus the classification. 
 
-benefits with multi task training (mask RCNN > RCNN + RoIAlign)
+The Mask R-CNN have reached mAP scores of 62.3% for an IoU = 0.5, 43.4% for an IoU = 0.7 and 39.8% for the official metric over the 2016 COCO test-dev datasettest-dev.
 
-prendre image du tuto ?
-
-
-tuto slides: http://kaiminghe.com/iccv17tutorial/maskrcnn_iccv2017_tutorial_kaiminghe.pdf
-
-workshop imagenet: http://image-net.org/challenges/talks/2016/ECCV2016_ilsvrc_coco_detection_segmentation.pdf
+![92_mrcnn_architecture](92_mrcnn_architecture.PNG)*Mask R-CNN framework for isntance segmentation. Source: [K. He and al. (2017)](https://arxiv.org/pdf/1703.06870.pdf)*
 
 
 ## Conclusion
