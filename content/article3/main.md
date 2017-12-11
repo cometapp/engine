@@ -32,7 +32,7 @@ The best Fast R-CNNs have reached mAp scores of 70.0% for the 2007 PASCAL VOC te
 
 Region proposals detected with the selective search method was still necessary in the previous model and it is computationaly expensive. [S. Ren and al. (2016)](https://arxiv.org/pdf/1506.01497.pdf) have introduced Region Proposal Network (RPN) to directly generate region proposals, predict bounding boxes and detect objects. The Faster Region-based Convolutional Network (Faster R-CNN) is a combination between the RPN and the Fast R-CNN model.
 
-A CNN model takes as input the entire image and produces features maps. A window of size 3x3 slices all the features maps and it outputs a features vector linked to two fully-connected layers, one for box-regression and one for box-classification. Multiple region proposals are predicted by the fully-connected layers. A maximum of k regions is fixed thus the output of the box-regression layer has a size of 4k (coordinates of the boxes, their height and width) and the output of the box-classification layer a size of 2k ("objectness" scores to detect an object or not in the box). The k region proposals detected by the slicing window are called anchors.
+A CNN model takes as input the entire image and produces features maps. A window of size 3x3 slides all the features maps and it outputs a features vector linked to two fully-connected layers, one for box-regression and one for box-classification. Multiple region proposals are predicted by the fully-connected layers. A maximum of k regions is fixed thus the output of the box-regression layer has a size of 4k (coordinates of the boxes, their height and width) and the output of the box-classification layer a size of 2k ("objectness" scores to detect an object or not in the box). The k region proposals detected by the slicing window are called anchors.
 
 ![31_RPN](31_RPN.PNG)*Detecting the anchor boxes for a single 3x3 window. Source: [S. Ren and al. (2016)](https://arxiv.org/pdf/1506.01497.pdf)*
 
@@ -61,7 +61,7 @@ For a RoI in the center of the image in the Figure 3, the subregions in the feat
 
 ![42_baby_ex](42_baby_ex.PNG)*Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
 
-The best R-FCNs have reached mAP scores of 83.6% for the 2007 PASCAL VOC test dataset and 82.0%, they have been trained with the 2007, 2012 PASCAL VOC datasets and the COCO dataset. On the 2015 COCO challenge, they have had a score of 53.2% for an IoU = 0.5 and a score of 31.5% for the official mAP metric. The authors noticed that the R-FCN is 2.5-20 times faster than the Faster R-CNN conterpart.
+The best R-FCNs have reached mAP scores of 83.6% for the 2007 PASCAL VOC test dataset and 82.0%, they have been trained with the 2007, 2012 PASCAL VOC datasets and the COCO dataset. Over the test-dev dataset of the 2015 COCO challenge, they have had a score of 53.2% for an IoU = 0.5 and a score of 31.5% for the official mAP metric. The authors noticed that the R-FCN is 2.5-20 times faster than the Faster R-CNN conterpart.
 
 ## You Only Look Once (YOLO)
 The YOLO model developped by [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf) directely predict bounding boxes and class probabilities with a single network and a single evaluation. The simplicity of the YOLO model allow a high frequence of computation to realize real-time predictions.
@@ -74,11 +74,13 @@ The CNN used is inspired by the [GoogLeNet](https://arxiv.org/pdf/1409.4842.pdf)
 
 The final layer outputs a SxSx(C+B*5) tensor corresponding to the predictions for each cell of the grid. C is the number of estimated probabilities for each class. B is the fixed number of bouding boxes each one related to 4 coordinates (coordinates of the center of the box, width and height) and a confidence value.
 
+With the previous models, the predicted bounding boxes were often containing an object. The YOLO model predict a high number of bounding boxes on the entire image thus there are a lot of bounding boxes without any object. The Non-Maximum Suppression (NMS) method is applied at the end of the network. It consists in grouping highly-overlapping bounding boxes into a single one by keeping the boxe with the higher confidence value. The authors noticed that there are still few false positive detected.
+
 ![52_yolo_architecture](52_yolo_architecture.PNG)*YOLO architecture: it is composed of 24 convolutional layers and 2 fully-connected layers. Source: [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf)*
 
 The YOLO model has a 63.7% mAP score over the 2007 PASCAL VOC dataset and a 57.9% mAP score over the 2012 PASCAL VOC dataset. The Fast YOLO model has lower scores but they have both real time performances.
 
-Caption: Real Time Systems on PASCAL VOC 2007. Comparaison of speeds and performances for models trained with the 2007 and 2012 PASCAL VOC datasets. The results provided correspond to the implementations of [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf).
+Caption: Real Time Systems on PASCAL VOC 2007. Comparaison of speeds and performances for models trained with the 2007 and 2012 PASCAL VOC datasets. The published resultsa correspond to the implementations of [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf).
 
 |Model|mAP|FPS|Real Time speed|
 |-------|-------|-------|-------|
@@ -91,21 +93,82 @@ Caption: Real Time Systems on PASCAL VOC 2007. Comparaison of speeds and perform
 
 
 
-## Single Shot Detector (SSD)
-paper: https://arxiv.org/pdf/1512.02325.pdf
-blog 1: https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9
-blog 2: https://towardsdatascience.com/understanding-ssd-multibox-real-time-object-detection-in-deep-learning-495ef744fab
+## Single-Shot Detector (SSD)
 
-***
-|Model|FPS|
-|-------|-------|
-|R-CNN (with SS)|x|
-|Fast R-CNN (with RPN)|5|
-|Faster R-CNN (with RPN)|x|
-|YOLO|45|
-|Fast YOLO|155|
-Use source from YOLO paper ?
+As the YOLO model, [W. Liu and al. (2016)](https://arxiv.org/pdf/1512.02325.pdf) have developped a Single-Shot Detector (SSD) to predict all at once the bounding boxes and the class probabilities with a particular CNN architecture.
+
+The model takes an image as input and it is used through multiple convolutional layers with different size of filter (10x10, 5x5 and 3x3). Features maps from convolutional layers at different position of the network are used to predict the bounding boxes. They are processed by a specific convolutional layers with 3x3 filters called extra feature layers to produce a set of bounding boxes similar to the anchor boxes of the Fast R-CNN. 
+
+![62_ssd_architecture](62_ssd_architecture.PNG)*Comparison between the SSD and the YOLO architectures. The SSD model uses extra feature layers from different features maps of the network in order to increase the number of relevant bounding boxes. Source: [W. Liu and al. (2016)](https://arxiv.org/pdf/1512.02325.pdf)*
+
+The detected boxes have 4 parameters: the coordinates of the center of the box, the width and the height. The model predicts a variation of the coordinates of the center of the box to optimize the spatial location. At the same time, it produces a vector of probabilities corresponding to the confience over each class of object.
+
+![61_ssd_ex](61_ssd_ex.PNG)*SSD Framework. (a) The model takes an image and its ground truth bounding boxes. Small sets of boxes with different aspect ratios are fixed by the different features map ((b) and (c)). During training, the boxes localization are modified to best match the ground truth.*
+
+The Non-Maximum Suppression method is also used at the end of the SSD model to keep the most relevant bounding boxes. The Hard Negative Mining (HNM) is then used because negative boxes are still predicted. It consists in selecting only a subpart of negative boxes during the training. The boxes are ordered by confidence and the top is selected depending on the ratio between the negative and the positive which is at most 1/3.
+
+[W. Liu and al. (2016)](https://arxiv.org/pdf/1512.02325.pdf) distinguish the SSD300 model (the architecture is detailed on the figure above) and the SSD512 model which is the SSD300 with an extra convolutional layer for prediction to improve performances. The best SSDs models are trained with the 2007, 2012 PASCAL VOC datasets and the 2015 COCO dataset with data augmentation. They have obtained mAP scores of 83.2% over the 2007 PASCAL VOC test dataset and 82.2% over the 2012 PASCAL VOC test dataset. Over test-dev dataset of the 2015 COCO challenge, they have had a score of 48.5% for an IoU = 0.5, 30.3% for an IoU = 0.75 and 31.5% for the official mAP metric.
+
+
+## YOLO9000 and YOLOv2
+
+[J. Redmon and A. Farhadi (2016)](https://arxiv.org/pdf/1612.08242.pdf) have released a new model called YOLO9000 capable of detecting more than 9000 object categories while still runing in real-time. They also provide ameliorations on the initial YOLO model to improve its performances without decreasing its speed.
+
+### YOLOv2
+The YOLOv2 model is focused on improving accuracy while still being a fast detector. Batch normalization is added to prevent overfitting without using dropout and higher resolution images are accepted as input.
+
+The final fully-connected layer of the YOLO model predicting the coordinates of the bounding boxes has been removed to use anchor boxes instead in the same way as Faster R-CNN. The input image is reduced to a grid and each cell is containing 5 anchor boxes. The YOLOv2 uses hundreds of anchor boxes by image instead of 98 boxes for the YOLO model. YOLOv2 predicts location coordinates relative to the location of the grid cell (the range is between 0 and 1) and selects the boxes according to their confidence as the SSD model. The number of anchor boxes has been fixed using k-means on the training set of bounding boxes with a particular distance metric.
+
+It uses a ResNet-like architecture to stack high and low resolution features maps to detect smaller objects. The "Darknet-19" is composed of 19 convolutional layers with 3x3 and 1x1 filters, groups of convolutional layers are folowed by maxpooling layers to reduce the output dimension. A final 1x1 convolutional layer outputs 5 boxes per cell of the grid with 5 coordinates and 20 probabilities each (the 20 classes of the PASCAL VOC  dataset).
+
+![72_yolov2_architecture](72_yolov2_architecture.PNG)*YOLOv2 architecture. Source: [J. Redmon and A. Farhadi (2016)](https://arxiv.org/pdf/1612.08242.pdf)*
+
+The YOLOv2 model trained with the 2007 and 2012 PASCAL VOC dataset has a 78.6% mAP score over the 2007 PASCAL VOC test dataset with a FPS value of 40. The model trained with the 2015 COCO dataset have mAP scores over the test-dev dataset of 44.0% for an IoU = 0.5, 19.2% for an IoU = 0.75 and 21.6% for the official mAP metric.
+
+### YOLO9000
+
+The authors have combined the ImageNet dataset with the COCO dataset in order to have a model capable of detect precise objects or animal breed. The ImageNet dataset for classification contains 1000 categories and the 2015 COCO dataset only 80 categories. The ImageNet classes are based on the WordNet lexicon developed by the Princeton University [^4] and it is composed with more than 20 000 words. [J. Redmon and A. Farhadi (2016)](https://arxiv.org/pdf/1612.08242.pdf) detail a method with the tree version of the WordNet. A softmax is applied on a group of labels with the same hyponym when the model predicts on an image. Thus the final probability associated to a label is computed with posterior probabilities in the tree. When the authors extend the concept to the entire WordNet lexicon excluding under represented categories, they obtain more than 9 000 categories.
+
+![71_word_tree](71_word_tree.PNG)*Prediction on ImageNet vs WordTree. Source: [J. Redmon and A. Farhadi (2016)](https://arxiv.org/pdf/1612.08242.pdf)*
+
+A combinaison between the COCO and the ImageNet datasets is used to train a YOLOv2-like architecture with 3 prior convolution layers instead of 5 to limite the output size. The model is evaluated on the ImageNet dataset for the detection task with around 200 labels. Only 44 labels are shared between the training and the testing dataset so the results are not relevant. It gets a 19.7 mAP score overall the test dataset.
+
+
+## Neural Architecture Search Net (NASNet)
+
+The Neural Architecture Search recently developed by [B. Zoph and Q.V. Le (2017)](https://arxiv.org/pdf/1611.01578.pdf) is detailed in our previous post. It consists in learning the architecture of a model to optimize the number of layers while performing the accuracy on a given dataset. [B. Zoph and al. (2017)](https://arxiv.org/pdf/1707.07012.pdf) have reached higher performances with lighter model than previous works over the 2012 ImageNet classification challenge. 
+
+The authors have applied this method to spatial object detection. The NASNet network has an architecture learned from the CIFAR-10 dataset and it is trained with the 2012 ImageNet dataset. This model is used for features maps generation and it is stacked into the Faster R-CNN pipeline. Then the entire pipeline is retrained with the COCO dataset.
+
+The best NASNet models for object recognition have obtained a 43.1% mAP score over the test-dev dataset of the COCO challenge with an IoU = 0.5. The lighter version of the NASNet optimized for mobile have a 29.6% mAP score over the same dataset.
+
+![81_nasnet_ex](81_nasnet_ex.PNG)*Example of object detection results. Comparison of Faster R-CNN pipelines one is using [Inception-ResNet](http://arxiv.org/abs/1602.07261) as features maps generator (top) and the other the NASNet model (bottom). Source: [B. Zoph and al. (2017)](https://arxiv.org/pdf/1707.07012.pdf)*
+
+## Mask Region-based Convolutional Network (Mask R-CNN)
+
+Another extension of the Faster R-CNN model has been released by [K. He and al. (2017)](https://arxiv.org/pdf/1703.06870.pdf) adding a parallele branch to the bounding box detection in order to predict object mask. The mask of an object is its segmentation by pixel in an image. This model outperforms the state-of-the-art in the three COCO challenges: the instance segmentation, the bounding box detection object detection and the keypoint detection.
+
+![91_mask_rcnn_ex](91_mask_rcnn_ex.PNG)*Exemples of Mask R-CNN application on the COCO test dataset. The model detects each object of an image, its localisation and its precise segmentation by pixel. Source: [K. He and al. (2017)](https://arxiv.org/pdf/1703.06870.pdf)*
+
+The Mask Region-based Convolutional Network (Mask R-CNN) uses the Faster R-CNN pipeline with three output branches for each candidate object: a class label, a bounding box offset and the object mask. It uses Region Proposal Network (RPN) to generate bounding box proposals and produces the three outputs at the same time for each Region of Interest (RoI).
+
+The initial RoIPool layer used in the Faster R-CNN is replaced by a RoIAlign layer. It removes the quantization of the coordinates of the original RoI and computes the exact values of the locations. The RoIAlign layer provides scale-equivarience and translation-equivariance with the region proposals.
+
+The model takes an image as input and feeds a [ResNeXt](https://arxiv.org/pdf/1611.05431.pdf) network with 101 layers. This model looks like a ResNet but each residual block is cutted into lighter transformations which are aggregated adding sparsity in the block. The model detects RoIs which are processed using a RoIAlign layer. One branch of the network is linked to a fully-connected layer, it computes the coordinates of the bounding boxes and the probabilities associated to the objects. The other branch is linked to two convolutional layers, the last one computes the mask of the detected object.
+
+Three loss functions associated to each task to solve are summed. This sum is minimized and produces great performances because solving the segmentation task improve the localisation and thus the classification. 
+
+The Mask R-CNN have reached mAP scores of 62.3% for an IoU = 0.5, 43.4% for an IoU = 0.7 and 39.8% for the official metric over the 2016 COCO test-dev datasettest-dev.
+
+![92_mrcnn_architecture](92_mrcnn_architecture.PNG)*Mask R-CNN framework for isntance segmentation. Source: [K. He and al. (2017)](https://arxiv.org/pdf/1703.06870.pdf)*
+
+
+## Conclusion
+
+
+
 
 [^1]: The entire architecture is inspired from the VGG16 model, thus it has 13 convolutional layers and 3 fully-connected layers.
 [^2]: The fastest Faster R-CNN has an architecture inspired by the ZFNet model introduced by [M.D. Zeiler and R. Fergus (2013)](https://arxiv.org/pdf/1311.2901.pdf). The commonly used Faster R-CNN has an architecture similar to the VGG16 model and it is 10 times faster than the Fast R-CNN.
 [^3]: It reduces the features space from the previous layers.
+[^4]: Details are provided in the previous blog post.
