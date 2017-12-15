@@ -1,5 +1,5 @@
-# Computer vision at Zyl
-Zyl is an app aiming at finding the best pictures lost in the limbo of your phone. This post explains why we are introducing computer vision algorithms in the app.
+# Computer vision in mobile phones
+Mobile phones have become more than just ‘phones’. Not only do they allow us to contact others, but they also capture moment we would like to remember forever, notably through pictures. These media can be leveraged to provide unique and personal services to the user through computer vision algorithms. However, they often contain personal data, a valuable information we need to protect. This post explains why and how we can bring such algorithms into a mobile phone, while maintaining user’s privacy.
 
 ## A picture is worth a thousand words
 Ever wanted to remember forever the crazy atmosphere of Saturday's party with your friends? The liberating moment when you graduate? The cuteness of your cat chasing a laser beam? In most of those cases, you would take a picture or record a video in order to store this memorable instant. Visual multimedia have become an inseparable part of our social lives, and they often capture moments tied with deep affections. 
