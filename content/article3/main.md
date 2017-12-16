@@ -1,6 +1,32 @@
-# Article 3: multiclassification
+# Article 3: Review of Deep Learning Algorithms for Object Detection
 
 To define: PASCAL VOC, COCO (Imagenet ?), mAP score, IoU
+
+Image classification models detailled in the previous blog post classify images into one category correspond to the most obvious object in the image. Photos taken with mobile phones are usually complex and contain multiple objects. In this case, these models will be uncertain in which object to detect. An object detection model is more appropriate to avoid any confusion about the prediction and to highlight as much information as we can. It also provides information about the localisation of the objects on the image.
+
+The purpose of this blog post is to review the state-of-the-art of objects detection models. We will provide details about the evolution of architectures of the most accurate objects detection models from 2012 to date. Few models are highlighted thanks to their speed for inference allowing real-time analysis. Note that researchers test their algorithms using different datasets (PASCAL VOC, COCO, ImageNet) and they are different between the years. Thus the cited accuracies cannot be directly compared *per se*.
+
+## Datasets and Performance Metric
+
+Several datasets have been released for objects detection challenges and researchers publish results of their algorithms applied to these challenges. Particular performance metrics have been developed to take into acount the spatial position of the dtected object and the accuracy of the predicted categories.
+
+### Datasets
+
+The [PASCAL Visual Object Classification (PASCAL VOC)](http://host.robots.ox.ac.uk/pascal/VOC/) dataset is a well-known source of data for objects detection, classification, segmentation of objects and so on. There are 8 different challenges between 2005 and 2012 and each one has its specificities. They have around 10 000 images for training and validation containing bounding boxes with objects. The PASCAL VOC dataset only contain 20 categories but it is a reference in the state-of-the-art of objects detection.
+
+ImageNet has released an object detection dataset from its 2013 challenge with bounding boxes containing objects. The training dataset is composed of around 500 000 images only for training and 200 categories. It is little used because the size of the dataset requires a important computing power for training and the number of class highly complicates the object recognition task. A comparison between the 2014 ImageNet dataset and the 2012 PASCAL VOC dataset is available [here](http://image-net.org/challenges/LSVRC/2014/).
+
+The [Common Objects in COntext (COCO)](http://cocodataset.org/#home) dataset is developed by Microsoft and detailed by [T.-Y.Lin and al. (2015)](https://arxiv.org/pdf/1405.0312.pdf). This dataset is used for multiple challenges: generate captioning, objects detection, keypoints detection and object segmentation. We focus on the COCO objects detection challenge consisting in localising the objects in an image with bounding boxes and categorize each one of them between 80 categories. The dataset changes each year but usually it is composed of more than 120 000 images for training and validation, and more than 40 000 images for testing. The test dataset has been recently cut into the test-dev dataset for researchers and the test-challenge dataset for competitors. Both associated labeled data are not publicly available to avoid overfitting on the test dataset.
+
+![01_COCO_example](01_COCO_example.PNG)*Examples of segmented objects from the 2015 COCO dataset. Source: [T.-Y.Lin and al. (2015)](https://arxiv.org/pdf/1405.0312.pdf)*
+
+### Performance Metric
+The objects detection challenge is all at once a regression and a classification task. First of all, the spatial precision consists in removing the boxes with low confidences. The Intersection over Union (IoU) area is a value between 0 and 1. It corresponds to the overlapping area between the predicted box and the ground-truth box. The higher the IoU, the better the predicted location of the box for a given object. Usually, an IoU value is fixed to select all bounding box candidates with a superior IoU.
+
+In binary classification, the Average Precision (AP) metric is a summary of the precision-recall curve, details are provided [here](https://en.wikipedia.org/w/index.php?title=Information_retrieval&oldid=793358396#Average_precision). The commonly used metric used for object detection challenges is called the mean Average Precision (mAP). It is simply the mean of the Average Precisions computed over all the classes of the challenge. The mAP metric avoids to have extreme specialisation in few classes and thus weak performances in other classes.
+
+The mAP score is usually computed for a fixed IoU but a high number of bounding boxes can increse the number of candidate boxes. The COCO challenge has developed an official metric to avoid extreme generation of boxes. It computes a mean of the mAP scores for variable IoU values in order to penalize high number of bounding boxes with wrong classifications.
+
 
 ## Region-based Convolutional Network (R-CNN)
 
