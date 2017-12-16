@@ -1,4 +1,4 @@
-# Review of deep learning algorithms for image classification
+# Review of Deep Learning Algorithms for Image Classification
 
 
 ## Why do we need image classification?
