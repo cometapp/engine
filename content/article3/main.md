@@ -190,7 +190,7 @@ The Mask R-CNN have reached mAP scores of 62.3% for an IoU = 0.5, 43.4% for an I
 ## Conclusion
 Through the years, objects detection models tend to infer localisation and classification all at once to have an entirely differentiable network. Thus it is trained from head to tail with backpropagation. Moreover, A trade-off between high performances and realtime prediction capacities is made between the recent models.
 
-Captation:
+Captation: Overview of the mAP scores on the 2007, 2010, 2012 PASCAL VOC dataset and 2015, 2016 COCO datasets.
 
 |Model | PASCAL VOC 2007 | PASCAL VOC 2010 | PASCAL VOC 2012 | COCO 2015 (IoU=0.5)| COCO 2015 (IoU=0.75) | COCO 2015 (Official Metric)| COCO 2016 (IoU=0.5)| COCO 2016 (IoU=0.75) | COCO 2016 (Official Metric)| Real Time Speed |
 |------|-----------------|-----------------|-----------------|-----------|---------------|------------|------------|------------|------------|------------|
