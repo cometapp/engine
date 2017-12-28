@@ -27,13 +27,13 @@ The ImageNet challenge has been traditionally tackled with image analysis algori
 
 
 ## Going deeper  
-Since the 2012 milestone, researchers have tried to go deeper in the sequences of convolutional layers. In 2014, [K. Simonyan & A. Zisserman (2015)](https://arxiv.org/abs/1409.1556.pdf) released the VGG16 model, composed of sixteen convolutional layers, multiple max-pool layers and three final fully-connected layers. One of its specificities is to chain multiple convolutional layers with ReLU activation functions creating nonlinear transformations. Indeed, introducing nonlinearities allow models to learn more complex patterns. Moreover they introduced 3x3 filters for each convolution (as opposed to 11x11 filters for the AlexNet model) and noticed they could recognised the same patterns than larger filters while decreasing the number of parameters to train. These transformations reached 7.3% top-5 score on the 2014 ImageNet challenge reducing by a factor of two the error rate of the AlexNet model.
+Since the 2012 milestone, researchers have tried to go deeper in the sequences of convolutional layers. In 2014, [K. Simonyan & A. Zisserman (2015)](https://arxiv.org/abs/1409.1556.pdf) released the VGG16 model, composed of sixteen convolutional layers, multiple max-pool layers and three final fully-connected layers. One of its specificities is to chain multiple convolutional layers with ReLU activation functions creating nonlinear transformations. Indeed, introducing nonlinearities allow models to learn more complex patterns. Moreover they introduced 3x3 filters for each convolution (as opposed to 11x11 filters for the AlexNet model) and noticed they could recognized the same patterns than larger filters while decreasing the number of parameters to train. These transformations reached 7.3% top-5 score on the 2014 ImageNet challenge reducing by a factor of two the error rate of the AlexNet model.
 
 ## Inception modules
 This same year, [M. Lin and al. (2014)](https://arxiv.org/abs/1312.4400.pdf) have developed the concept of "inception modules". Original convolutional layer uses linear transformations with a nonlinear activation function. However, training multiple convolutional layers simultaneously and stack their feature maps linked with a multi-layer perceptron also produces a nonlinear transformation. This idea has been exploited by [C. Szegedy and al. (2014)](https://arxiv.org/abs/1409.4842) who proposed a deeper network called GoogLeNet (aka Inception V1) with 22 layers using such "inception modules" for a total of over 50 convolution layers. Each module is composed of 1x1, 3x3, 5x5 convolution layers and a 3x3 max-pool layer to increase sparsity in the model and obtain different type of patterns. The produced feature maps are then concatenated and analyzed by the next inception module. The GoogLeNet model has a 6.7% error rate over the 2014 ImageNet challenge which is somewhat lower than the VGG16 but astonishingly smaller (55MB vs 490MB). This gap is mainly due to the presence of the three large fully-connected layers in the VGG architecture.
 
 
-![31_Inception_module](31_Inception_module.png)*Inception module. Source: [C. Szegedy and al. (2014)](https://arxiv.org/abs/1409.4842)*
+![31_Inception_module](31_Inception_module.png)*Inception modules. Source: [C. Szegedy and al. (2014)](https://arxiv.org/abs/1409.4842)*
 
 ![32_GoogLeNet](32_GoogLeNet.png)*GoogLeNet architecture. Source: [C. Szegedy and al. (2014)](https://arxiv.org/abs/1409.4842)*
 
@@ -79,7 +79,8 @@ Google Brain researchers [(B. Zoph and Q.V. Le, 2017)](https://arxiv.org/pdf/161
 
 Using this previous work, [B. Zoph and al. (2017)](https://arxiv.org/pdf/1707.07012.pdf) have created a model with an architecture block learned using NAS on the CIFRA-10 dataset to perform the ImageNet challenge. These blocks are duplicated and stacked with their own parameters to create the "NASNet" model. The ImageNet dataset is too large to be used for the NAS method but the authors have succeeded to create lighter and speeder block architectures than [C. Szegedy and al. (2016)](http://arxiv.org/abs/1602.07261). The parameters of the NASNet model are trained using the ImageNet. The model achieved top-5 3.8% error rate over the ImageNet 2012 challenge. A smaller version of less than 50MB is also released with a lower error rate than any other equivalently-sized model.
 
-![71_NASnet_A_modules](71_NASnet_A_modules.png)*Architecture of the best convolutional modules learned with NAS computing the next hidden state using the past one as input. Left: the Normal Cell is the module creating the feature maps. Right: the Reduction Cell is the module reducing the size of the feature maps by a factor of two (it replaces max-pooling layers)*
+![71_NASnet_A_modules](71_NASnet_A_modules.png)*Architecture of the best convolutional modules learned with NAS computing the next hidden state using the past one as input. Left: the Normal Cell is the module creating the feature maps. Right: the Reduction Cell is the module reducing the size of the feature maps by a factor of two (it replaces max-pooling layers). Source: [B. Zoph and al. (2017)](https://arxiv.org/pdf/1707.07012.pdf)*
+
 
 ## Conclusion
 This post described the milestones reached in deep learning for the image classification problem, and more specifically about the ImageNet challenge. However, it is not an exhaustive list of all the existing models. New ones appear every day, as a reminder that image classification is a very active field of research in computer vision.
@@ -102,6 +103,6 @@ Most of them however requires, with a size of hundred of megabytes, a significan
 
 [^1]: Synonym sets
 
-[^2]: [C. Szegedy and al. (2016)](http://arxiv.org/abs/1602.07261) developed a pure (ie without residual block) Inception V4 and an Inception-ResNet V2 model which uses inception modules and residual blocks. The aforementioned Inception V4 is the Inception-ResNet V2 providing the best performances.
+[^2]: [C. Szegedy and al. (2016)](http://arxiv.org/abs/1602.07261) developed a pure (i.e. without residual block) Inception V4 and an Inception-ResNet V2 model which uses inception modules and residual blocks. The aforementioned Inception V4 is the Inception-ResNet V2 providing the best performances.
 
 Tags: review, CNN, difficult
