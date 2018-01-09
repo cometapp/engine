@@ -127,7 +127,7 @@ The Non-Maximum Suppression method is also used at the end of the SSD model to k
 
 
 ## YOLO9000 and YOLOv2
-[J. Redmon and A. Farhadi (2016)](https://arxiv.org/pdf/1612.08242.pdf) have released a new model called YOLO9000 capable of detecting more than 9000 object categories while still runing in real-time. They also provide ameliorations on the initial YOLO model to improve its performances without decreasing its speed.
+[J. Redmon and A. Farhadi (2016)](https://arxiv.org/pdf/1612.08242.pdf) have released a new model called YOLO9000 capable of detecting more than 9000 object categories while runing in almost real time (around 10 images per second on a recent mobile). They also provide ameliorations on the initial YOLO model to improve its performances without decreasing its speed.
 
 ### YOLOv2
 The YOLOv2 model is focused on improving accuracy while still being a fast detector. Batch normalization is added to prevent overfitting without using dropout. Higher resolution images are accepted as input: the YOLO model uses 448x448 images while the YOLOv2 uses 608x608 images.
@@ -183,15 +183,15 @@ Caption: Overview of the mAP scores on the 2007, 2010, 2012 PASCAL VOC dataset a
 
 |Model | PASCAL VOC 2007 | PASCAL VOC 2010 | PASCAL VOC 2012 | COCO 2015 (IoU=0.5)| COCO 2015 (IoU=0.75) | COCO 2015 (Official Metric)| COCO 2016 (IoU=0.5)| COCO 2016 (IoU=0.75) | COCO 2016 (Official Metric)| Real Time Speed |
 |------|-----------------|-----------------|-----------------|-----------|---------------|------------|------------|------------|------------|------------|
-|R-CNN | | 62.4% | | | | | | | | No |
-|Fast R-CNN| 70.0% | 68.8% | 68.4% || | | | | | No |
-|Faster R-CNN| 78.8% | | 75.9% | | | || | | No |
-|R-FCN| 82.0% | | | 53.2% | | 31.5%  || | | No |
-|YOLO| 63.7% | | 57.9%| | | || | | Yes |
-|SSD| 83.2% | | 82.2% | 48.5% | 30.3% | 31.5% || | | No |
-|YOLOv2| 78.6% | | | 44.0% | 19.2% | 21.6% || | | Yes |
-|NASNet| | | | 43.1% | | || | | No |
-|Mask R-CNN| | | | | | |62.3% | 43.3% | 39.8% | No |
+|R-CNN | x| 62.4% |x |x |x |x |x |x |x | No |
+|Fast R-CNN| 70.0% | 68.8% | 68.4% |x|x |x |x |x |x | No |
+|Faster R-CNN| 78.8% |x | 75.9% |x |x |x |x|x |x | No |
+|R-FCN| 82.0% |x |x | 53.2% |x | 31.5%  |x|x |x | No |
+|YOLO| 63.7% |x | 57.9%|x |x |x |x|x |x | Yes |
+|SSD| 83.2% |x | 82.2% | 48.5% | 30.3% | 31.5% |x|x |x | No |
+|YOLOv2| 78.6% |x |x | 44.0% | 19.2% | 21.6% |x|x |x | Yes |
+|NASNet| x|x |x | 43.1% |x |x |x|x |x | No |
+|Mask R-CNN|x |x |x |x |x |x |62.3% | 43.3% | 39.8% | No |
 
 The models presented in this blog post are either accurate or fast for inference. However, they all have complex and heavy architectures. For example, the YOLOv2 model is around 200MB and the best NASNet around 400MB. Reduction of size while keeping the same performances is an active field of research to embedd deep learning models into mobile devices. Some details will be provided in an upcoming post.
 
