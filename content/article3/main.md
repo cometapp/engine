@@ -1,6 +1,6 @@
 # Article 3: Review of Deep Learning Algorithms for Object Detection
 
-Image classification models detailled in the previous blog post classify images into a single category, usually corresponding to the most salient object. However, photos taken with mobile phones are usually complex and contain multiple objects. In this case, such models are uncertain about which label to assign. An object detection model is therefore more appropriate because it can identify multiple important objects in a single image. Moreover, it provides  the localisation of the objects on the image.
+Image classification models detailed in the previous blog post classify images into a single category, usually corresponding to the most salient object. However, photos taken with mobile phones are usually complex and contain multiple objects. In this case, such models are uncertain about which label to assign. An object detection model is therefore more appropriate because it can identify multiple important objects in a single image. Moreover, it provides  the localization of the objects on the image.
 
 The purpose of this blog post is to review the state-of-the-art of object detection models. We will provide details about the evolution of the architectures of the most accurate object detection models from 2012 up to today. We will highlight some models renowned for their speed at inference allowing real-time analysis. Note that researchers test their algorithms using different datasets (PASCAL VOC, COCO, ImageNet) which are different between the years. Thus the cited accuracies cannot be directly compared *per se*.
 
@@ -14,16 +14,16 @@ The [PASCAL Visual Object Classification (PASCAL VOC)](http://host.robots.ox.ac.
 
 ImageNet has released an object detection dataset since 2013 with bounding boxes containing objects. The training dataset is composed of around 500 000 images only for training and 200 categories. It is rarely used because the size of the dataset requires an important computational power for training. Also, the high number of classes complicates the object recognition task. A comparison between the 2014 ImageNet dataset and the 2012 PASCAL VOC dataset is available [here](http://image-net.org/challenges/LSVRC/2014/).
 
-On the other hand, the [Common Objects in COntext (COCO)](http://cocodataset.org/#home) dataset is developed by Microsoft and detailed by [T.-Y.Lin and al. (2015)](https://arxiv.org/pdf/1405.0312.pdf). This dataset is used for multiple challenges: caption generation, object detection, keypoint detection and object segmentation. We focus on the COCO objects detection challenge consisting in localising the objects in an image with bounding boxes and categorize each one of them between 80 categories. The dataset changes each year but usually it is composed of more than 120 000 images for training and validation, and more than 40 000 images for testing. The test dataset has been recently cut into the test-dev dataset for researchers and the test-challenge dataset for competitors. Both associated labeled data are not publicly available to avoid overfitting on the test dataset.
+On the other hand, the [Common Objects in COntext (COCO)](http://cocodataset.org/#home) dataset is developed by Microsoft and detailed by [T.-Y.Lin and al. (2015)](https://arxiv.org/pdf/1405.0312.pdf). This dataset is used for multiple challenges: caption generation, object detection, key point detection and object segmentation. We focus on the COCO objects detection challenge consisting in localizing the objects in an image with bounding boxes and categorize each one of them between 80 categories. The dataset changes each year but usually it is composed of more than 120 000 images for training and validation, and more than 40 000 images for testing. The test dataset has been recently cut into the test-dev dataset for researchers and the test-challenge dataset for competitors. Both associated labeled data are not publicly available to avoid overfitting on the test dataset.
 
 ![01_COCO_example](01_COCO_example.PNG)*Examples of segmented objects from the 2015 COCO dataset. Source: [T.-Y.Lin and al. (2015)](https://arxiv.org/pdf/1405.0312.pdf)*
 
 ### Performance Metric
 The object detection challenge is, at the same time, a regression and a classification task. First of all, to assess the spatial precision we need to remove the boxes with low confidence (usually, the model output many more boxes than actual objects). Then, we use the Intersection over Union (IoU) area, a value between 0 and 1. It corresponds to the overlapping area between the predicted box and the ground-truth box. The higher the IoU, the better the predicted location of the box for a given object. Usually, we keep all bounding box candidates with an IoU greater than some threshold.
 
-In binary classification, the Average Precision (AP) metric is a summary of the precision-recall curve, details are provided [here](https://en.wikipedia.org/w/index.php?title=Information_retrieval&oldid=793358396#Average_precision). The commonly used metric used for object detection challenges is called the mean Average Precision (mAP). It is simply the mean of the Average Precisions computed over all the classes of the challenge. The mAP metric avoids to have extreme specialisation in few classes and thus weak performances in other classes.
+In binary classification, the Average Precision (AP) metric is a summary of the precision-recall curve, details are provided [here](https://en.wikipedia.org/w/index.php?title=Information_retrieval&oldid=793358396#Average_precision). The commonly used metric used for object detection challenges is called the mean Average Precision (mAP). It is simply the mean of the Average Precisions computed over all the classes of the challenge. The mAP metric avoids to have extreme specialization in few classes and thus weak performances in other classes.
 
-The mAP score is usually computed for a fixed IoU but a high number of bounding boxes can increse the number of candidate boxes. The COCO challenge has developed an official metric to avoid an over generation of boxes. It computes a mean of the mAP scores for variable IoU values in order to penalize high number of bounding boxes with wrong classifications.
+The mAP score is usually computed for a fixed IoU but a high number of bounding boxes can increase the number of candidate boxes. The COCO challenge has developed an official metric to avoid an over generation of boxes. It computes a mean of the mAP scores for variable IoU values in order to penalize high number of bounding boxes with wrong classifications.
 
 
 ## Region-based Convolutional Network (R-CNN)
@@ -31,19 +31,19 @@ The first models intuitively begin with the region search and then perform the c
 
 ![11_selective_search_ex](11_selective_search_ex.PNG)*Selective Search application, top: visualisation of the segmention results of the algorithm, down: visualisation of the region proposals of the algorithm. Source: [J.R.R. Uijlings and al. (2012)](http://www.huppelen.nl/publications/selectiveSearchDraft.pdf)*
 
-The R-CNN model [(R. Girshick et al., 2014)](http://islab.ulsan.ac.kr/files/announcement/513/rcnn_pami.pdf) combines the **selective search** method to detect region proposals and deep learning to find out the object in these regions. Each region proposal is resized to match the input of a CNN from which we extract a 4096-dimension vector of features. The features vector is feeded into multiple classifiers to produce probabilities to belong to each class. Each one of these classes has a SVM classifier trained to infer a probability to detect this object for a given vector of features. This vector also feeds a linear regressor to adapt the shapes of the bounding box for a region proposal and thus reduce localization errors.
+The R-CNN model [(R. Girshick et al., 2014)](http://islab.ulsan.ac.kr/files/announcement/513/rcnn_pami.pdf) combines the **selective search** method to detect region proposals and deep learning to find out the object in these regions. Each region proposal is resized to match the input of a CNN from which we extract a 4096-dimension vector of features. The features vector is fed into multiple classifiers to produce probabilities to belong to each class. Each one of these classes has a SVM classifier trained to infer a probability to detect this object for a given vector of features. This vector also feeds a linear regressor to adapt the shapes of the bounding box for a region proposal and thus reduce localization errors.
 
 The CNN model described by the authors is trained on the 2012 ImageNet dataset of the original challenge of image classification. It is fine-tuned using the region proposals corresponding to an IoU greater 0.5 with the ground-truth boxes. Two versions are produced, one version is using the 2012 PASCAL VOC dataset and the other the 2013 ImageNet dataset with bounding boxes. The SVM classifiers are also trained for each class of each dataset.
 
 The best R-CNNs models have achieved a 62.4% mAP score over the PASCAL VOC 2012 test dataset (22.0 points increase w.r.t. the second best result on the leader board) and a 31.4% mAP score over the 2013 ImageNet dataset (7.1 points increase w.r.t. the second best result on the leader board).
 
 
-![13_R_CNN_blog](13_R_CNN_blog.PNG)*Region-based Convolution Network (R-CNN). Each region proposal feeds a CNN to extract a features vector, possible objects are detected using multiple SVM classifiers and a linear regressor modifies the coordinates of the bounding box. Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
+![13_R_CNN_blog](13_R_CNN_blog.PNG)*Region-based Convolution Network (R-CNN). Each region proposal feeds a CNN to extract a features vector, possible objects are detected using multiple SVM classifiers and a linear regressor modifies the coordinates of the bounding box. Source: [J. Xu's Blog)*
 
 ## Fast Region-based Convolutional Network (Fast R-CNN)
-The purpose of the Fast Region-based Convolutional Network (Fast R-CNN) developped by [R. Girshick (2015)](https://arxiv.org/pdf/1504.08083.pdf) is to reduce the time consumption related to the high number of models necessary to analyse all region proposals.
+The purpose of the Fast Region-based Convolutional Network (Fast R-CNN) developed by [R. Girshick (2015)](https://arxiv.org/pdf/1504.08083.pdf) is to reduce the time consumption related to the high number of models necessary to analyse all region proposals.
 
-A main CNN with multiple convolutional layers is taking the entire image as input instead of using a CNN for each region proposals (R-CNN). **Region of Interests** (RoIs) are detected with the selective search method applied on the produced features maps. Formally, the features maps size is reduced using a RoI pooling layer to get valid Region of Interests with fixed heigh and width as hyperparameters. Each RoI layer feeds fully-connected layers[^1] creating a features vector. The vector is used to predict the observed object with a softmax classfier and to adapt bounding box localizations with a linear regressor. 
+A main CNN with multiple convolutional layers is taking the entire image as input instead of using a CNN for each region proposals (R-CNN). **Region of Interests** (RoIs) are detected with the selective search method applied on the produced features maps. Formally, the features maps size is reduced using a RoI pooling layer to get valid Region of Interests with fixed heigh and width as hyperparameters. Each RoI layer feeds fully-connected layers[^1] creating a features vector. The vector is used to predict the observed object with a softmax classifier and to adapt bounding box localizations with a linear regressor. 
 
 The best Fast R-CNNs have reached mAp scores of 70.0% for the 2007 PASCAL VOC test dataset, 68.8% for the 2010 PASCAL VOC test dataset and 68.4% for the 2012 PASCAL VOC test dataset.
 
@@ -57,13 +57,13 @@ A CNN model takes as input the entire image and produces features maps. A window
 
 ![31_RPN](31_RPN.PNG)*Detecting the anchor boxes for a single 3x3 window. Source: [S. Ren and al. (2016)](https://arxiv.org/pdf/1506.01497.pdf)*
 
-When the anchor boxes are detected, they are selected by applying a threshold over the  "objectness" score to keep only the relevant boxes. These anchor boxes and the features maps computed by the inital CNN model feeds a Fast R-CNN model.
+When the anchor boxes are detected, they are selected by applying a threshold over the  "objectness" score to keep only the relevant boxes. These anchor boxes and the features maps computed by the initial CNN model feeds a Fast R-CNN model.
 
 Faster R-CNN uses RPN to avoid the selective search method, it accelerates the training and testing processes, and improve the performances. The RPN uses a pre-trained model over the ImageNet dataset for classification and it is fine-tuned on the PASCAL VOC dataset. Then the generated region proposals with anchor boxes are used to train the Fast R-CNN. This process is iterative. 
 
-The best Faster R-CNNs have obtained mAP scores of  78.8% over the 2007 PASCAL VOC test dataset and 75.9% over the 2012 PASCAL VOC test dataset. They have been trained with PASCAL VOC and COCO datasets. One of these models[^2] is 34 times faster than the Fast R-CNN using the selective search method.
+The best Faster R-CNNs have obtained mAP scores of 78.8% over the 2007 PASCAL VOC test dataset and 75.9% over the 2012 PASCAL VOC test dataset. They have been trained with PASCAL VOC and COCO datasets. One of these models[^2] is 34 times faster than the Fast R-CNN using the selective search method.
 
-![32_faster_R_CNN_blog](32_faster_R_CNN_blog.png)*The entire image feeds a CNN model to produce anchor boxes as region proposals with a confience to contain an object. A Fast R-CNN is used taking as inputs the features maps and the region proposals. For each box, it produces probabilities to detect each object and correction over the location of the box. Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
+![32_faster_R_CNN_blog](32_faster_R_CNN_blog.png)*The entire image feeds a CNN model to produce anchor boxes as region proposals with a confidence to contain an object. A Fast R-CNN is used taking as inputs the features maps and the region proposals. For each box, it produces probabilities to detect each object and correction over the location of the box. Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
 
 
 ## Region-based Fully Convolutional Network (R-FCN)
@@ -75,11 +75,11 @@ In parallel, we need to run a RPN to generate Region of Interest (RoI). Finally,
 
 ![41_R_FCN_blog](41_R_FCN_blog.PNG)*The input image feeds a ResNet model to produce features maps. A RPN model detects the Region of Interests and a score is computed for each region to determine the most likely object if there is one. Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
 
-[J. Dai and al. (2016)](https://arxiv.org/pdf/1605.06409.pdf) have detailed an example displayed below. The figures show the reaction of a R-FCN model specialized in detecting a person. For a RoI in the center of the image (Figure 3), the subregions in the features maps are specific to the patterns associated to a person. Thus they vote for "yes, there is a person at this location". In the Figure 4, the RoI is shifted to the right and it is no longer centered on the person. The subregions in the features maps do not agree on the person detection, thus they vote "no, there is no baby at this location".
+[J. Dai and al. (2016)](https://arxiv.org/pdf/1605.06409.pdf) have detailed an example displayed below. The figures show the reaction of a R-FCN model specialized in detecting a person. For a RoI in the center of the image (Figure 3), the subregions in the features maps are specific to the patterns associated to a person. Thus they vote for "yes, there is a person at this location". In the Figure 4, the RoI is shifted to the right and it is no longer centred on the person. The subregions in the features maps do not agree on the person detection, thus they vote "no, there is no person at this location".
 
 ![42_baby_ex](42_baby_ex.PNG)*Source: [J. Xu's Blog](https://towardsdatascience.com/deep-learning-for-object-detection-a-comprehensive-review-73930816d8d9)*
 
-The best R-FCNs have reached mAP scores of 83.6% for the 2007 PASCAL VOC test dataset and 82.0%, they have been trained with the 2007, 2012 PASCAL VOC datasets and the COCO dataset. Over the test-dev dataset of the 2015 COCO challenge, they have had a score of 53.2% for an IoU = 0.5 and a score of 31.5% for the official mAP metric. The authors noticed that the R-FCN is 2.5-20 times faster than the Faster R-CNN conterpart.
+The best R-FCNs have reached mAP scores of 83.6% for the 2007 PASCAL VOC test dataset and 82.0%, they have been trained with the 2007, 2012 PASCAL VOC datasets and the COCO dataset. Over the test-dev dataset of the 2015 COCO challenge, they have had a score of 53.2% for an IoU = 0.5 and a score of 31.5% for the official mAP metric. The authors noticed that the R-FCN is 2.5-20 times faster than the Faster R-CNN counterpart.
 
 ## You Only Look Once (YOLO)
 The YOLO model [(J. Redmon et al., 2016)](https://arxiv.org/pdf/1506.02640.pdf) directly predicts bounding boxes and class probabilities with a single network in a single evaluation. The simplicity of the YOLO model allows for real-time predictions.
@@ -98,7 +98,7 @@ With the previous models, the predicted bounding boxes often contained an object
 
 The YOLO model has a 63.7% mAP score over the 2007 PASCAL VOC dataset and a 57.9% mAP score over the 2012 PASCAL VOC dataset. The Fast YOLO model has lower scores but they have both real time performances.
 
-Caption: Real Time Systems on PASCAL VOC 2007. Comparaison of speeds and performances for models trained with the 2007 and 2012 PASCAL VOC datasets. The published results correspond to the implementations of [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf).
+Caption: Real Time Systems on PASCAL VOC 2007. Comparison of speeds and performances for models trained with the 2007 and 2012 PASCAL VOC datasets. The published results correspond to the implementations of [J. Redmon and al. (2016)](https://arxiv.org/pdf/1506.02640.pdf).
 
 |Model|mAP|FPS|Real Time speed|
 |-------|-------|-------|-------|
@@ -119,7 +119,7 @@ The model takes an image as input which passes through multiple convolutional la
 
 Each box has 4 parameters: the coordinates of the center, the width and the height. At the same time, it produces a vector of probabilities corresponding to the confidence over each class of object.
 
-![61_ssd_ex](61_ssd_ex.PNG)*SSD Framework. (a) The model takes an image and its ground truth bounding boxes. Small sets of boxes with different aspect ratios are fixed by the different features map ((b) and (c)). During training, the boxes localization are modified to best match the ground truth.*
+![61_ssd_ex](61_ssd_ex.PNG)*SSD Framework. (a) The model takes an image and its ground truth bounding boxes. Small sets of boxes with different aspect ratios are fixed by the different features map ((b) and (c)). During training, the boxes localization are modified to best match the ground truth. Source: [W. Liu and al. (2016)](https://arxiv.org/pdf/1512.02325.pdf)*
 
 The Non-Maximum Suppression method is also used at the end of the SSD model to keep the most relevant bounding boxes. The **Hard Negative Mining** (HNM) is then used because a lot of negative boxes are still predicted. It consists in selecting only a subpart of these boxes during the training. The boxes are ordered by confidence and the top is selected depending on the ratio between the negative and the positive which is at most 1/3.
 
@@ -127,7 +127,7 @@ The Non-Maximum Suppression method is also used at the end of the SSD model to k
 
 
 ## YOLO9000 and YOLOv2
-[J. Redmon and A. Farhadi (2016)](https://arxiv.org/pdf/1612.08242.pdf) have released a new model called YOLO9000 capable of detecting more than 9000 object categories while runing in almost real time (around 10 images per second on a recent mobile). They also provide ameliorations on the initial YOLO model to improve its performances without decreasing its speed.
+[J. Redmon and A. Farhadi (2016)](https://arxiv.org/pdf/1612.08242.pdf) have released a new model called YOLO9000 capable of detecting more than 9000 object categories while running in almost real time (around 10 images per second on a recent mobile). They also provide ameliorations on the initial YOLO model to improve its performances without decreasing its speed.
 
 ### YOLOv2
 The YOLOv2 model is focused on improving accuracy while still being a fast detector. Batch normalization is added to prevent overfitting without using dropout. Higher resolution images are accepted as input: the YOLO model uses 448x448 images while the YOLOv2 uses 608x608 images.
@@ -159,21 +159,21 @@ The best NASNet models for object recognition have obtained a 43.1% mAP score ov
 ![81_nasnet_ex](81_nasnet_ex.PNG)*Example of object detection results. Comparison of Faster R-CNN pipelines one is using [Inception-ResNet](http://arxiv.org/abs/1602.07261) as features maps generator (top) and the other the NASNet model (bottom). Source: [B. Zoph and al. (2017)](https://arxiv.org/pdf/1707.07012.pdf)*
 
 ## Mask Region-based Convolutional Network (Mask R-CNN)
-Another extension of the Faster R-CNN model has been released by [K. He and al. (2017)](https://arxiv.org/pdf/1703.06870.pdf) adding a parallele branch to the bounding box detection in order to predict object mask. The mask of an object is its segmentation by pixel in an image. This model outperforms the state-of-the-art in the four COCO challenges: the instance segmentation, the bounding box detection, the object detection and the keypoint detection.
+Another extension of the Faster R-CNN model has been released by [K. He and al. (2017)](https://arxiv.org/pdf/1703.06870.pdf) adding a parallel branch to the bounding box detection in order to predict object mask. The mask of an object is its segmentation by pixel in an image. This model outperforms the state-of-the-art in the four COCO challenges: the instance segmentation, the bounding box detection, the object detection and the key point detection.
 
-![91_mask_rcnn_ex](91_mask_rcnn_ex.PNG)*Exemples of Mask R-CNN application on the COCO test dataset. The model detects each object of an image, its localisation and its precise segmentation by pixel. Source: [K. He and al. (2017)](https://arxiv.org/pdf/1703.06870.pdf)*
+![91_mask_rcnn_ex](91_mask_rcnn_ex.PNG)*Examples of Mask R-CNN application on the COCO test dataset. The model detects each object of an image, its localisation and its precise segmentation by pixel. Source: [K. He and al. (2017)](https://arxiv.org/pdf/1703.06870.pdf)*
 
 The Mask Region-based Convolutional Network (Mask R-CNN) uses the Faster R-CNN pipeline with three output branches for each candidate object: a class label, a bounding box offset and the object mask. It uses Region Proposal Network (RPN) to generate bounding box proposals and produces the three outputs at the same time for each Region of Interest (RoI).
 
 The initial RoIPool layer used in the Faster R-CNN is replaced by a **RoIAlign** layer. It removes the quantization of the coordinates of the original RoI and computes the exact values of the locations. The RoIAlign layer provides scale-equivariance and translation-equivariance with the region proposals.
 
-The model takes an image as input and feeds a [ResNeXt](https://arxiv.org/pdf/1611.05431.pdf) network with 101 layers. This model looks like a ResNet but each residual block is cutted into lighter transformations which are aggregated to add sparsity in the block. The model detects RoIs which are processed using a RoIAlign layer. One branch of the network is linked to a fully-connected layer to compute the coordinates of the bounding boxes and the probabilities associated to the objects. The other branch is linked to two convolutional layers, the last one computes the mask of the detected object.
+The model takes an image as input and feeds a [ResNeXt](https://arxiv.org/pdf/1611.05431.pdf) network with 101 layers. This model looks like a ResNet but each residual block is cut into lighter transformations which are aggregated to add sparsity in the block. The model detects RoIs which are processed using a RoIAlign layer. One branch of the network is linked to a fully-connected layer to compute the coordinates of the bounding boxes and the probabilities associated to the objects. The other branch is linked to two convolutional layers, the last one computes the mask of the detected object.
 
 Three loss functions associated to each task to solve are summed. This sum is minimized and produces great performances because solving the segmentation task improve the localisation and thus the classification. 
 
 The Mask R-CNN have reached mAP scores of 62.3% for an IoU = 0.5, 43.4% for an IoU = 0.7 and 39.8% for the official metric over the 2016 COCO test-dev dataset.
 
-![92_mrcnn_architecture](92_mrcnn_architecture.PNG)*Mask R-CNN framework for isntance segmentation. Source: [K. He and al. (2017)](https://arxiv.org/pdf/1703.06870.pdf)*
+![92_mrcnn_architecture](92_mrcnn_architecture.PNG)*Mask R-CNN framework for instance segmentation. Source: [K. He and al. (2017)](https://arxiv.org/pdf/1703.06870.pdf)*
 
 
 ## Conclusion
@@ -193,7 +193,7 @@ Caption: Overview of the mAP scores on the 2007, 2010, 2012 PASCAL VOC dataset a
 |NASNet| x|x |x | 43.1% |x |x |x|x |x | No |
 |Mask R-CNN|x |x |x |x |x |x |62.3% | 43.3% | 39.8% | No |
 
-The models presented in this blog post are either accurate or fast for inference. However, they all have complex and heavy architectures. For example, the YOLOv2 model is around 200MB and the best NASNet around 400MB. Reduction of size while keeping the same performances is an active field of research to embedd deep learning models into mobile devices. Some details will be provided in an upcoming post.
+The models presented in this blog post are either accurate or fast for inference. However, they all have complex and heavy architectures. For example, the YOLOv2 model is around 200MB and the best NASNet around 400MB. Reduction of size while keeping the same performances is an active field of research to embed deep learning models into mobile devices. Some details will be provided in an upcoming post.
 
 
 [^1]: The entire architecture is inspired from the VGG16 model, thus it has 13 convolutional layers and 3 fully-connected layers.
