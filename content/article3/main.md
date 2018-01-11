@@ -10,7 +10,7 @@ Several datasets have been released for object detection challenges. Researchers
 
 ### Datasets
 
-The [PASCAL Visual Object Classification (PASCAL VOC)](http://host.robots.ox.ac.uk/pascal/VOC/) dataset is a well-known source of data for object detection, classification, segmentation of objects and so on. There are 8 different challenges between 2005 and 2012 and each one has its own specificities. There are around 10 000 images for training and validation containing bounding boxes with objects. The PASCAL VOC dataset only contain 20 categories but is considered as a reference in the object detection problem.
+The [PASCAL Visual Object Classification (PASCAL VOC)](http://host.robots.ox.ac.uk/pascal/VOC/) dataset is a well-known dataset for object detection, classification, segmentation of objects and so on. There are 8 different challenges spanning from 2005 to 2012, each of them having its own specificities. There are around 10 000 images for training and validation containing bounding boxes with objects. Although, the PASCAL VOC dataset contains only 20 categories, it is still considered as a reference dataset in the object detection problem.
 
 ImageNet has released an object detection dataset since 2013 with bounding boxes containing objects. The training dataset is composed of around 500 000 images only for training and 200 categories. It is rarely used because the size of the dataset requires an important computational power for training. Also, the high number of classes complicates the object recognition task. A comparison between the 2014 ImageNet dataset and the 2012 PASCAL VOC dataset is available [here](http://image-net.org/challenges/LSVRC/2014/).
 
