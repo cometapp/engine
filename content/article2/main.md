@@ -64,6 +64,8 @@ model has won the 2015 challenge with a top-5 error rate of 3.57%.
 ### The Inception-ResNet
 One year after the success of the ResNet model, [C. Szegedy et al. (2016)](http://arxiv.org/abs/1602.07261) combined inception modules (to increase sparsity) and residual blocks (to learn deeper layers), building residual inception blocks. The inception modules have been improved to fine-tune the layer sizes and to detect more specific patterns. This model doesn't use batch-normalization before the first traditional layers of the network to increase even more the number of inception blocks. The resulting Inception V4 (Inception-ResNet)[^2] model can be trained faster and outperforms all other models over the 2012 ImageNet challenge with a top-5 error rate of 3.08%.
 
+![52_inception_resnet_a](52_inception_resnet_a.png)*Architecture of an Inception-resnet-A module. Source: [C. Szegedy et al. (2016)](http://arxiv.org/abs/1602.07261)*
+
 ![51_Inception_ResNet_archi_using_complex_modules](51_Inception_ResNet_archi_using_complex_modules.png)*Inception-ResNet architecture using customized Inception-ResNet modules. Source: [C. Szegedy et al. (2016)](http://arxiv.org/abs/1602.07261)*
 
 ### Squeeze and Excitation
