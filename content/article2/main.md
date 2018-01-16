@@ -1,6 +1,6 @@
 # Review of Deep Learning Algorithms for Image Classification
 
-![cover](cover.png)*Top-1 accuracies of the ImageNet dataset versus number of operations of well-known algorithms according to the implementation of [A. Canziani et al. (2016)](https://arxiv.org/abs/1605.07678).*
+![cover](cover.jpg)
 
 ## Why do we need image classification?
 In the previous post, we praised the advantages of embedded deep learning algorithms into mobile phones. While the applications are numerous, we will focus on computer vision algorithms, the heart of Zyl. One of the most popular task of such algorithms is image classification, ie telling which object appears on a picture. Indeed mobile phones host a diverse and rich photo gallery which then become a personal database difficult to manage especially to recover specific events. Users should be able to have a memory in their mind and find the associated images in the most efficient way. A first intuitive approach would be to type in a word corresponding to the content of the image. Searching images with words is, from a machine learning point of view, a classification problem with a high number of classes.
