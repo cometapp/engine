@@ -24,34 +24,27 @@ The previous step provides weights with a discrete distribution from the  indexe
 
 
 ## Weight Quantization Methods
-Intro
+The quantization method of Deep Compression uses clustering to compute shared values as new weights. Simpler weight quantization methods exist reducing the size of the model and its energy consumption while preserving performances.
 
 ### Binarized Neural Networks
-[Courbariaux et al. (2016)](https://arxiv.org/abs/1602.02830) have release a method to train Binarized Neural Networks (BNN) replacing weight and activation values by binary values. The authors binarize them in a deterministic way using a simple sign function. They also detail a stochastic way using a **hard sigmoid** to compute probabilities to assign 1 and -1 values. The deterministic binarization is mostly used, the stochastic one appear sometimes for activations only at training time depending on the framework.
+[Courbariaux et al. (2016)](https://arxiv.org/abs/1602.02830) have release a method to train Binarized Neural Networks (BNN) replacing weight and activation values by binary values. The authors binarize them in a deterministic way using a simple **sign** function. They also detail a stochastic way using a **hard sigmoid** function computing probabilities to assign 1 and -1 values. The deterministic binarization is mostly used, the stochastic one appears sometimes for activations only at training time.
 
-Gradients are computed with float values because stochastic gradient descent (SGD) algorithm is sensitive to small variations. While the derivative of the sign function is almost 0 everywhere, they use an estimator of the partial derivative of the sign function. It is based on a dummy variable cancelling high values of weights or activations when the sign function is non differentiable. During the forward pass, the weights of the hidden layers are mapped into a `[-1, 1]` space and quantized using the sign function.
+Gradients are computed with float values because stochastic gradient descent (SGD) algorithm is sensitive to small variations. While the derivative of the sign function is almost 0 everywhere, they use an estimator of its partial derivative. It is based on a dummy variable cancelling high values of weights or activations when the function is non differentiable. During the forward pass, the weights of the hidden layers are mapped into a `[-1, 1]` space and quantized using the sign function.
 
 ![21_binary_filter](21_binary_filter.png)*Example of binary weight filter. Source: [Courbariaux et al. (2016)](https://arxiv.org/abs/1602.02830)*
 
-### Trained Ternary Quantization
-[Zhu et al. (2017)](https://arxiv.org/abs/1612.01064) propose a method called Trained Ternary Quantization (TTQ) reducing weight precision without significant decreasing of accuracy. This method transform weights to ternary values each one stored over 2 bits. The weights are quantized into three values specific to each layer: zero to cancel useless connections, a positive value and a negative value.
+Storing weights as binary values on 2-bits instead of 32-bits dramatically reduces the memory size of the model. Moreover, It decreases the accesses to the memory and arithmetic operations are replaced with bit-wise operations. This way, the computational time for training and testing is reduced as well as the energy consumption useful to embed deep learning models.
 
-The authors have been inspired by the work of [Li et al. (2016)](https://arxiv.org/abs/1605.04711). After rescaling the full-precision weights, they scale them into a [-1, 1] space. Then the weights are quantized into three values (1, -1 and 0) using a threshold shared between all the layers. Finally, for each layer, the binary values (1 and -1) are trained independently with float precision using gradient descent. The values are stored in a codebook as introduced by [Han et al. (2015)](http://arxiv.org/abs/1510.00149) with indexes learnt by back-propagating quantized values. During testing, the initial full precision weights are replaced by the learnt ternary weight values rounded to be stored on 2 bits.
+### Trained Ternary Quantization
+[Zhu et al. (2017)](https://arxiv.org/abs/1612.01064) propose a method called Trained Ternary Quantization (TTQ) reducing weight precision without significantly decreasing the accuracy. This method transforms weights to ternary values each one stored on 2-bits. The weights are quantized into three values specific to each layer: zero to cancel useless connections, a positive value and a negative value.
+
+The authors have been inspired by the work of [Li et al. (2016)](https://arxiv.org/abs/1605.04711). The full-precision weights are scaled into a [-1, 1] space. Then the weights are quantized into three values (1, -1 and 0) using a threshold shared between all the layers. Finally, for each layer, the binary values (1 and -1) are trained independently with float precision using gradient descent. The values are stored in a codebook as introduced by [Han et al. (2015)](http://arxiv.org/abs/1510.00149) with indexes learnt by back-propagating the quantized values. During testing, the initial full precision weights are replaced by the learnt ternary weight values rounded to be stored on 2-bits.
 
 ![22_ttq_pipeline](22_ttq_pipeline.png)*Pipeline of the Trained Ternary Quantization method. Source: [Zhu et al. (2017)](https://arxiv.org/abs/1612.01064)*
 
-According the authors’ implementation, ResNets with TTQ method have reached better performances than the full precision ones. This method seems to better generalize deeper models avoiding overfitting due to high number of parameters. They also trained a customised AlexNet[^2] with TTQ method using the 2012 ImageNet dataset. Slightly better results than the full precision implementation are obtained and the model size has been reduced by 16 times. The final model have sparse weights reducing time and energy consumptions for inference.
+According the authors’ implementations, ResNets with TTQ method have reached better performances than the full precision ones. This method seems to better generalize deeper models avoiding overfitting due to high number of parameters. They also trained a customised AlexNet[^2] with TTQ method using the 2012 ImageNet dataset. Slightly better results than the full precision implementation are obtained and the model size has been reduced by 16 times. The final model have sparse weights reducing time and energy consumptions for inference.
 
 ![23_ternary_filter](23_ternary_filter.png)*Visualization of kernels from Ternary AlexNet trained from Imagenet. Grey, black and white colors correspond to zero, negative and positive weights respectively. Source: [Zhu et al. (2017)](https://arxiv.org/abs/1612.01064)*
-
-
-
-
-
-
-
-
-
 
 
 
@@ -105,7 +98,7 @@ The **SEP-Net module** consists of a convolutional layer with 1x1 filters follow
 To conclude, model reduction is essential for deep learning embedded on mobile. We could use either deep compression methods, specific architectures with a low number of parameters, or both. Both methods create small models with potentially high accuracy. However, a trade-off is made between lightweight and performances, and the good balance will depend upon the application.
 
 [^1]: Although, we might consider later training a model for each individual.
-[^2]: The first and the last layers keep full precision weights, the other layers have ternary parameters.
+[^2]: The first and the last layers keep full precision weights, the others have ternary parameters.
 [^3]: [Iandola et al. (2016)](http://arxiv.org/abs/1602.07360) have published a top-1 score of 57.5%.
 [^4]: The final model of 0.47 MB has around 0.4 million parameters.
 [^5]: The number of feature maps is divided by 4 times.
