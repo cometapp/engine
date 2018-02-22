@@ -1,0 +1,5 @@
+$t \in \[0; 1\]$
+The algorithm to build decision trees is called Classification And Regression Trees (CART). It chooses the best split for a given feature to create the root node. It best separate the training data $X_n$ with $n$ examples between forgettable and non-forgettable images. In other words, it minimizes the local cost function$L(t, X_n)$ where $t \in \[0; 1\]$ is the best split. The training dataset $X_n$ is then splitted into $X_n^{right}$ and $X_n^{left}$. Then the algorithm creates a child node on the right and another one on the left. It continues to construct child nodes at the right and left of each node until a stop criteria is fulfilled.
+$k \in {0; 1}$
+$t(j, \tau)$:
+$H_{gini} (X_n) = - H_{entropy} (X_n)$

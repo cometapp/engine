@@ -60,7 +60,7 @@ The SqueezeNet model has a specific architecture using convolutional layers, poo
 
 ![32_squeeze_archi](32_squeeze_archi.png)*SqueezeNet architectures. Left: classic SqueezeNet architecture (57.5% top-1 accuracy). Right: SqueezeNet with residual connection (60.4% top-1 accuracy). Source: [Iandola et al. (2016)](http://arxiv.org/abs/1602.07360)*
 
-### MobileNets
+### MobileNet V1
 [Howard et al. (2017)](http://arxiv.org/abs/1704.04861) have developed a group of small models called MobileNets for vision applications embedded on mobile. They have built models which are a trade-offs between speed and accuracy to match different purpose. 
 
 The MobileNets architecture is base on the **depth-wise separable** convolution similar to factorized convolution. First, a classic convolution with a filter with a fixed size (3x3 for example) is applied over all the input producing the same number of feature maps, it is the **depth-wise** convolution. Then convolutions with 1x1 filters are used over each feature map, it is the **point-wise** convolution. Factorizing initial convolutions with 1x1 filters reduces dramatically the number of parameters.
@@ -93,6 +93,23 @@ The **SEP-Net module** consists of a convolutional layer with 1x1 filters follow
 
 
 [Li et al. (2017)](http://arxiv.org/abs/1706.03912) have highlighted the relevance of the pattern binarization by reducing the number of parameters of the GoogLeNet model by almost **2 times**. It has only decreased the top-1 accuracy by 3% over the 2012 ImageNet challenge. The SEP-Net model has a top-1 accuracy of 65.8% close to the reduced GoogLeNet for a 5.2 MB model with 1.3 million parameters. According to their implementation, the SqueezeNet model (1.2 million parameters, 4.8 MB) has a top-1 accuracy of 60.4% and the MobileNet (1.3 million parameters, 5.2 MB) has an accuracy of 63.7% which made the SEP-Net the state-of-the-art of small CNNs.
+
+### MobileNet V2
+[Sandler et al. (2018)](https://arxiv.org/abs/1801.04381) have recently released a new version of the MobileNet model introduced by [Howard et al. (2017)](http://arxiv.org/abs/1704.04861). In their new architecture block, they have also used depth wise separable convolutions (detailed above) with 3x3 filters. Linear transformations are inserted between convolution blocks called **linear bottleneck** to prevent non-linear transformations to dammage information. This type of layers is a 1x1 convolution reducing the depth of the input feature maps. Another type of layer called **expansion convolution** are used to increased depth of feature maps from a linear bottleneck. In this layer, The ratio between the input and the output depths is called the **expansion ratio**.
+
+![61_bottleneck](61_bottleneck.png)*Depth wise separable convolutions with linear bottleneck and expansion layer. The diagonally hatched layers do not contain non-linear transformation and depth of the blocks correspond to the relative number of channels. Source: [Sandler et al. (2018)](https://arxiv.org/abs/1801.04381)*
+
+The linear bottleneck contains an aggregation of informations useful for final computation. Non-linear transformations provided by usual convolutional layers help to find patterns in feature maps. An expansion convolution is applied after a linear bottleneck followed by depth wise separable convolutions and a new linear botteneck. This way, the input and the output of this new block have the same dimensions allowing residual connections and thus backpropagation in multiple layers. In this architecture, bottlenecks are connected instead of the large depth layers, that is why the authors called it "**Inverted residual block**".
+
+![62_residual_block](62_residual_block.png)*Comparison between residual and inversted residual blocks. The diagonally hatched layers do not contain non-linear transformation and depth of the blocks correspond to the relative number of channels. Source: [Sandler et al. (2018)](https://arxiv.org/abs/1801.04381)*
+
+The MobileNetV2 is composed of a fully connected layer followed by 19 inverted residual blocks with fixed expansion ratio. Width and resolution multipliers of the initial MobileNet model also control respectively the number of feature maps and the resolution of the input in the new architecture. 
+
+![63_mobilenetv2](63_mobilenetv2.png)*MobileNetV2 layers. Source: [Sandler et al. (2018)](https://arxiv.org/abs/1801.04381)*
+
+
+This model has been trained with different datasets to solve several tasks. It has reached better performances than the MobileNetV1 on the 2012 ImageNet dataset for [image classification](https://medium.com/comet-app/review-of-deep-learning-algorithms-for-image-classification-5fdbca4a05e2) with less parameters. They have used a SSDLite model for [object detection](https://medium.com/comet-app/review-of-deep-learning-algorithms-for-object-detection-c1f3d437b852) replacing convolutions with separable convolutions. According to the authors, they have combined SSDLite and MobileNetV2 models and trained them with the COCO dataset. They have achieved better performances than the YOLOv2 model for real-time object detection while reducing the number of parameters by 10 times. The same way, they have adapted an existing model for image segmentation, combined it with MobileNetV2 and train them over the 2012 PASCAL VOC dataset. They have obtained worse performances than a benchmark model but they have reduced the number of parameters by almost 30 times allowing embedding on mobile.
+
 
 # Conclusion
 To conclude, model reduction is essential for deep learning embedded on mobile. We could use either deep compression methods, specific architectures with a low number of parameters, or both. Both methods create small models with potentially high accuracy. However, a trade-off is made between lightweight and performances, and the good balance will depend upon the application.
