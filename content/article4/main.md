@@ -105,7 +105,7 @@ The linear bottleneck contains aggregated informations from linear transformatio
 
 ![62_residual_block](62_residual_block.png)*Comparison between residual and inversted residual blocks. The diagonally hatched layers do not contain non-linear transformation and depth of the blocks correspond to the relative number of channels. Source: [Sandler et al. (2018)](https://arxiv.org/abs/1801.04381)*
 
-The MobileNetV2 is composed of a fully connected layer followed by 19 Inverted residual blocks with a fixed expansion ratio. Width and resolution multipliers of the initial MobileNet model also control respectively the number of feature maps and the resolution of the input in the new architecture. 
+The MobileNetV2 is composed of a fully connected layer followed by 19 inverted residual blocks with a fixed expansion ratio. Width and resolution multipliers of the initial MobileNet model also control respectively the number of feature maps and the resolution of the input in the new architecture. 
 
 ![63_mobilenetv2](63_mobilenetv2.png)*MobileNetV2 layers. Source: [Sandler et al. (2018)](https://arxiv.org/abs/1801.04381)*
 
